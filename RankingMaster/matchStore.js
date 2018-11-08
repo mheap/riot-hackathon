@@ -149,6 +149,6 @@ module.exports = {
         const matchDto = new Match(match)
         await matchDto.save()
 
-        return matchDto
+        return matchDto.toJSON()
     },
 };

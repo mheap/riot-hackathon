@@ -44,10 +44,11 @@ app.get('/match', async (req, res) => {
       return
     }
 
-    const gameData = await matchStore.getMatch(req.query.matchId)
-    gameData = JSON.stringify(JSON.parse(gameData));
+    const gameData = await matchStore.getMatch(req.query.matchId);
+    //console.log(JSON.stringify(gameData));
+    //gameData = JSON.stringify(JSON.parse(gameData));
     let sanitizedData = {};
-    console.log(gameData)
+    console.log(gameData);
 
     sanitizedData.userIdentity = gameData.participantIdentities.filter(_pId => _pId.player.summonerName == req.query.summonerName && _pId.player);
     sanitizedData.userParticipant = gameData.participants.filter(_p => sanitizedData.userIdentity.participantId === _p.participantId && _p)
