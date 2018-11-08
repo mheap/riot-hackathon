@@ -62,14 +62,14 @@ app.get('/match', async (req, res) => {
   }
 });
 
-app.get('/leaderboard/:champ_id', (req, res) => {
+app.get('/leaderboard/:champ_id', async (req, res) => {
   const leaderboardData = await matchData.getLeaderboard(req.query.champ_id);
 
   res.send(leaderboardData)
 });
 
 app.post('/evaluate', async (req, res) => {
-
+  rs.send('90001');
 });
 
 
