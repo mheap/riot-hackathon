@@ -12,8 +12,6 @@ export default class SelectChampion extends Component {
     render() {
       var hexagons = GridGenerator.hexagon(7);
 
-      console.log(hexagons[0]);
-
       return (
         <div className="App">
           <div className="plate">
@@ -26,7 +24,17 @@ export default class SelectChampion extends Component {
               {
                 hexagons.map((hex, i) => {
                   var link = "/" + champions[i] + "/leaderboard";
-                  return <a href={link}><Hexagon fill={i.toString()} key={i} q={hex.q} r={hex.r} s={hex.s}><Text>{champions[i]}</Text></Hexagon></a>
+                    if (!champions[i]) {
+                        return "";
+                    }
+
+                    return (
+                    <a href={link}>
+                      <Hexagon fill={i.toString()} key={i} q={hex.q} r={hex.r} s={hex.s}>
+                        <Text>{champions[i]}</Text>
+                      </Hexagon>
+                    </a>
+                  )
                 })
               }
             </Layout>
