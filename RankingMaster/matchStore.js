@@ -138,7 +138,7 @@ module.exports = {
     getMatch: async (matchId) => {
         await init()
         await Match.findOneAndDelete({gameId: matchId})
-        let match = await Match.findOne({gameId: matchId})
+        let match = await Match.findOne({getMatchId: matchId})
 
         if (match) {
             return match
@@ -152,4 +152,3 @@ module.exports = {
         return matchDto
     },
 };
-  
