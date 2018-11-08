@@ -62,6 +62,17 @@ app.get('/match', async (req, res) => {
   }
 });
 
+app.get('/leaderboard/:champ_id', (req, res) => {
+  const leaderboardData = await matchData.getLeaderboard(req.query.champ_id);
+
+  res.send(leaderboardData)
+});
+
+app.post('/evaluate', async (req, res) => {
+
+});
+
+
 app.listen(3000, '0.0.0.0', async () => {
   console.log(`Server listening on 3000`);
 
