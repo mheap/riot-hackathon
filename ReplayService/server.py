@@ -21,6 +21,15 @@ def error(msg):
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def clean_data(raw_dict):
+    new_dict = { 'gameVersion':raw_dict['gameVersion'], 'matchId':raw_dict['MatchId'], 'gameLength':raw_dict['gameLength'] }
+    player_list = []
+    for player in raw_dict['statsJson']:
+        player_list.append({ 'name':player['NAME'], 'champion':player['SKIN'], 'playerId':player['ID'] })
+
+    new_dict['players'] = player_list
+    return new_dict
+
 @app.route("/upload", methods=["POST"])
 @app.route("/web_upload", methods=["POST"])
 def upload_file_web():
@@ -64,7 +73,7 @@ def upload_file_web():
                 os.remove(tempfilepath)
 
         return app.response_class(
-            response=str(basic_json), status=200, mimetype="application/json"
+            response=json.dumps(clean_data(json.loads(str(basic_json)))), status=200, mimetype="application/json"
         )
 
 @app.route("/download/<string:matchid>", methods=["GET"])
