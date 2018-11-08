@@ -10,7 +10,9 @@ export default class SelectChampion extends Component {
 
     constructor(props) {
       super(props);
-        this.uploadText = 'Drop your replay here'
+        this.state = {
+          uploadText: 'Drop your replay here'
+        };
     }
 
     onDrop = (files) => {
@@ -28,8 +30,8 @@ export default class SelectChampion extends Component {
         });
 
         req.then((data) => {
-            this.setState((state, props) => {
-                this.uploadText = `<a href="/match/${data.body.matchId}">Match ${data.body.matchId} uploaded</a>`;
+            this.setState({
+                "uploadText": `<a href="/match/${data.body.matchId}">Match ${data.body.matchId} uploaded</a>`
             });
         }).catch(console.log);
     }
@@ -45,7 +47,7 @@ export default class SelectChampion extends Component {
           </div>
           <div className="upload-button">
           <ReactDropzone disableClick onDrop={this.onDrop}>
-          <p dangerouslySetInnerHTML={{__html: this.uploadText}} />
+          <p dangerouslySetInnerHTML={{__html: this.state.uploadText}} />
           </ReactDropzone>
           </div>
           <HexGrid width={1200} height={1250}>
