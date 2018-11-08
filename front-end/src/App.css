@@ -46,7 +46,6 @@
   left: 43.93px;
 }
 
-/*counter transform the bg image on the caps*/
 .hexTop:after,
 .hexBottom:after {
   content: "";
