@@ -8,7 +8,6 @@ class App extends Component {
     var hexagons = GridGenerator.hexagon(7);
 
     console.log(hexagons[0]);
-    hexagons.splice(142, 27);
 
     const images = [
       "",
@@ -43,6 +42,7 @@ class App extends Component {
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Fiora.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Fizz.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Galio.png",
+      "",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Gangplank.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Garen.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Gnar.png",
@@ -53,6 +53,7 @@ class App extends Component {
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Illaoi.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Irelia.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Ivern.png",
+      "","",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Janna.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/JarvanIV.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Jax.png",
@@ -63,6 +64,7 @@ class App extends Component {
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Kalista.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Karma.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Karthus.png",
+      "","","",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Kassadin.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Katarina.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Kayle.png",
@@ -73,24 +75,29 @@ class App extends Component {
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Kled.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/KogMaw.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Leblanc.png",
+      "","","","",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/LeeSin.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Leona.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Lissandra.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Lucian.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Lulu.png",
+      "",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Lux.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Malphite.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Malzahar.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Maokai.png",
+      "","","","","",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/MasterYi.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/MissFortune.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Mordekaiser.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Morgana.png",
+      "",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Nami.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Nasus.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Nautilus.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Nidalee.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Nocturne.png",
+      "","","","",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Nunu.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Olaf.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Orianna.png",
@@ -101,6 +108,7 @@ class App extends Component {
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Quinn.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Rakan.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Rammus.png",
+      "","","",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/RekSai.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Renekton.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Rengar.png",
@@ -111,6 +119,7 @@ class App extends Component {
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Shaco.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Shen.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Shyvana.png",
+      "","",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Singed.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Sion.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Sivir.png",
@@ -121,6 +130,7 @@ class App extends Component {
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Syndra.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/TahmKench.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Taliyah.png",
+      "",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Talon.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Taric.png",
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Teemo.png",
@@ -155,24 +165,27 @@ class App extends Component {
       "https://ddragon.leagueoflegends.com/cdn/8.22.1/img/champion/Zyra.png"
     ];
 
-    const champions = ["empty", "Aatrox", "Ahri", "Akali", "Alistar", "Amumu", "Anivia", "Annie", "Ashe", "Aurelion Sol", "Azir", "Bard",
+    const champions = ["", "Aatrox", "Ahri", "Akali", "Alistar", "Amumu", "Anivia", "Annie", "Ashe", "Aurelion Sol", "Azir", "Bard",
     "Blitzcrank", "Brand", "Braum", "Caitlyn", "Camille", "Cassiopeia", "Cho'Gath", "Corki", "Darius", "Diana", "Dr. Mundo", "Draven",
-    "Ekko", "Elise", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz", "Galio", "Gangplank", "Garen", "Gnar", "Gragas", "Graves",
-    "Hecarim", "Heimerdinger", "Illaoi", "Irelia", "Ivern", "Janna", "Jarvan IV", "Jax", "Jayce", "Jhin", "Jinx", "Kai'Sa", "Kalista",
-    "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kayn", "Kennen", "Kha'Zix", "Kindred", "Kled", "Kog'Maw", "LeBlanc", "Lee Sin",
-    "Leona", "Lissandra", "Lucian", "Lulu", "Lux", "Malphite", "Malzahar", "Maokai", "Master Yi", "Miss Fortune", "Mordekaiser", "Morgana",
-    "Nami", "Nasus", "Nautilus", "Nidalee", "Nocturne", "Nunu & Willump", "Olaf", "Orianna", "Ornn", "Pantheon", "Poppy", "Pyke", "Quinn",
-    "Rakan", "Rammus", "Rek'Sai", "Renekton", "Rengar", "Riven", "Rumble", "Ryze", "Sejuani", "Shaco", "Shen", "Shyvana", "Singed", "Sion",
-    "Sivir", "Skarner", "Sona", "Soraka", "Swain", "Syndra", "Tahm Kench", "Taliyah", "Talon", "Taric", "Teemo", "Thresh", "Tristana", "Trundle",
+    "Ekko", "Elise", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz", "Galio", "", "Gangplank", "Garen", "Gnar", "Gragas", "Graves",
+    "Hecarim", "Heimerdinger", "Illaoi", "Irelia", "Ivern", "","", "Janna", "Jarvan IV", "Jax", "Jayce", "Jhin", "Jinx", "Kai'Sa", "Kalista",
+    "Karma", "Karthus", "","","", "Kassadin", "Katarina", "Kayle", "Kayn", "Kennen", "Kha'Zix", "Kindred", "Kled", "Kog'Maw", "LeBlanc", "","","","", "Lee Sin",
+    "Leona", "Lissandra", "Lucian", "Lulu", "", "Lux", "Malphite", "Malzahar", "Maokai", "","","","","", "Master Yi", "Miss Fortune", "Mordekaiser", "Morgana", "",
+    "Nami", "Nasus", "Nautilus", "Nidalee", "Nocturne", "","","","", "Nunu & Willump", "Olaf", "Orianna", "Ornn", "Pantheon", "Poppy", "Pyke", "Quinn",
+    "Rakan", "Rammus", "","","", "Rek'Sai", "Renekton", "Rengar", "Riven", "Rumble", "Ryze", "Sejuani", "Shaco", "Shen", "Shyvana", "","", "Singed", "Sion",
+    "Sivir", "Skarner", "Sona", "Soraka", "Swain", "Syndra", "Tahm Kench", "Taliyah", "", "Talon", "Taric", "Teemo", "Thresh", "Tristana", "Trundle",
     "Tryndamere", "Twisted Fate", "Twitch", "Udyr", "Urgot" , "Varus", "Vayne", "Veigar", "Vel'Koz", "Vi", "Viktor", "Vladimir", "Volibear",
     "Warwick", "Wukong", "Xayah", "Xerath", "Xin Zhao", "Yasuo", "Yorick", "Zac", "Zed", "Ziggs", "Zilean", "Zoe", "Zyra"];
 
     return (
       <div className="App">
-        <h1>LoL App</h1>
-        <HexGrid width={1200} height={1000}>
+        <div className="plate">
+          <p className="shadow text1">UPLOAD</p>
+          <p className="shadow text2">ROFL</p>
+        </div>
+        <HexGrid width={1200} height={1250}>
           <Layout size={{ x: 4, y: 4 }}>
-            { hexagons.map((hex, i) => <Hexagon fill={i} key={i} q={hex.q} r={hex.r} s={hex.s}><Text>{i}</Text></Hexagon>) }
+            { hexagons.map((hex, i) => <Hexagon fill={i} key={i} q={hex.q} r={hex.r} s={hex.s}><Text>{champions[i]}</Text></Hexagon>) }
           </Layout>
           { images.map((champion, i) => <Pattern id={i} link={champion} size={{ x: 4, y: 4 }} />) }
         </HexGrid>
