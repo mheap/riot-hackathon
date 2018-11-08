@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -81,7 +83,7 @@ namespace RUBClient
                         using (var uploadClient = new HttpClient())
                         {
                             var res = await uploadClient.PostAsync(
-                                $"{Settings.Default["Server"]}{Settings.Default["UploadUrl"]}",
+                                $"{ConfigurationManager.AppSettings["Server"]}{ConfigurationManager.AppSettings["PostMatchUrl"]}",
                                 new StringContent(
                                     JsonConvert.SerializeObject(stats),
                                     Encoding.UTF8,
@@ -90,12 +92,50 @@ namespace RUBClient
 
                             if (await PromptForView())
                             {
+                                string redirectLocation;
+
                                 if (res.StatusCode == HttpStatusCode.RedirectMethod)
                                 {
-                                    var location = res.Headers.Location;
-
-                                    Process.Start(location.ToString());
+                                    redirectLocation = res.Headers.Location.ToString();
                                 }
+                                else
+                                {
+                                    continue;
+                                }
+
+                                if (!await client.Replays.DownloadMatchReplay(stats.GameId))
+                                {
+                                    continue;
+                                }
+
+                                var replayFile = $"{await client.Replays.GetRoflsPath()}/NA1-{stats.GameId}.rofl";
+
+                                while (!File.Exists(replayFile))
+                                {
+                                    await Task.Delay(50);
+                                }
+
+                                using (var replay = File.OpenRead(replayFile))
+                                {
+                                    var fileData = new MultipartFormDataContent
+                                    {
+                                        {new StreamContent(replay), "file", $"NA1-{stats.GameId}.rofl"}
+                                    };
+
+                                    fileData.Headers.Add("match-id", stats.GameId.ToString());
+                                    fileData.Headers.Add("summoner-id", stats.SummonerId.ToString());
+
+                                    var uploadRes = await uploadClient.PostAsync(
+                                        $"{ConfigurationManager.AppSettings["Server"]}{ConfigurationManager.AppSettings["UploadUrl"]}",
+                                        fileData);
+
+                                    if (!uploadRes.IsSuccessStatusCode)
+                                    {
+                                        continue;
+                                    }
+                                }
+
+                                Process.Start(redirectLocation);
                             }
                         }
                     }
