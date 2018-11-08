@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -82,7 +83,7 @@ namespace RUBClient
                         using (var uploadClient = new HttpClient())
                         {
                             var res = await uploadClient.PostAsync(
-                                $"{Settings.Default["Server"]}{Settings.Default["PostMatchUrl"]}",
+                                $"{ConfigurationManager.AppSettings["Server"]}{ConfigurationManager.AppSettings["PostMatchUrl"]}",
                                 new StringContent(
                                     JsonConvert.SerializeObject(stats),
                                     Encoding.UTF8,
@@ -116,10 +117,16 @@ namespace RUBClient
 
                                 using (var replay = File.OpenRead(replayFile))
                                 {
-                                    var fileData = new MultipartFormDataContent {new StreamContent(replay)};
+                                    var fileData = new MultipartFormDataContent
+                                    {
+                                        {new StreamContent(replay), "file", $"NA1-{stats.GameId}.rofl"}
+                                    };
+
+                                    fileData.Headers.Add("match-id", stats.GameId.ToString());
+                                    fileData.Headers.Add("summoner-id", stats.SummonerId.ToString());
 
                                     var uploadRes = await uploadClient.PostAsync(
-                                        $"{Settings.Default["Server"]}{Settings.Default["UploadUrl"]}",
+                                        $"{ConfigurationManager.AppSettings["Server"]}{ConfigurationManager.AppSettings["UploadUrl"]}",
                                         fileData);
 
                                     if (!uploadRes.IsSuccessStatusCode)
