@@ -48,14 +48,16 @@ app.get('/match', async (req, res) => {
     //console.log(JSON.stringify(gameData));
     //gameData = JSON.stringify(JSON.parse(gameData));
     let sanitizedData = {};
-    console.log(gameData);
+    //console.log(gameData);
 
-    sanitizedData.userIdentity = gameData.participantIdentities.filter(_pId => _pId.player.summonerName == req.query.summonerName && _pId.player);
-    sanitizedData.userParticipant = gameData.participants.filter(_p => sanitizedData.userIdentity.participantId === _p.participantId && _p)
+    //console.log(gameData.participants[0])
+
+    sanitizedData.userIdentity = gameData.participantIdentities.filter(_pId => _pId.player[0].summonerName == req.query.summonerName && _pId.player);
+    sanitizedData.userParticipant = gameData.participants.filter(_p => sanitizedData.userIdentity[0].participantId === _p.participantId && _p)
     // sanitizedData.champData = riotApiHelper.findChamp(sanitizedData, staticData.champions);
     // sanitizedData.userItems = riotApiHelper.mapItems(sanitizedData, staticData.items);
     // sanitizedData.userSpells = riotApiHelper.mapSpells(sanitizedData, staticData.spells);
-    console.log(sanitizedData);
+    //console.log(sanitizedData);
 
     res.send(sanitizedData);
   } catch(e) {
