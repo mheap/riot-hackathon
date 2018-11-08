@@ -17,12 +17,12 @@ function profileImage(name) {
     return "";
   }
 
-  if (name == 'Gene') {
+  if (name === 'Gene') {
     return "https://pbs.twimg.com/profile_images/906295011574026240/p-4tjjQf_400x400.jpg";
   }
 
   // Remove disallowed characters
-  name = name.replace(/(\.|\'|\ )/g, "");
+  name = name.replace(/(\.|'| )/g, "");
 
   var championURLs = {
     "Wukong" : "MonkeyKing",

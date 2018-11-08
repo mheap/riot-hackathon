@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose')
 const { Kayn } = require('kayn')
 
@@ -120,6 +119,37 @@ const matchSchema = new mongoose.Schema({
     participants: [participantSchema],
     platformId: String,
 })
+const playerStatsSchema = new mongoose.Schema({
+    internalRanking: Number,
+    externalRanking: String,
+    rating: Number,
+    match: [matchSchema],
+    playerIdentity: [playerSchema]
+})
+const commentSchema = new mongoose.Schema({
+    username: String,
+    comment: String,
+    timestamp: Date
+})
+const champBaseline = new mongoose.Schema({
+    championId: Number,
+    position: String,
+    queueType: String,
+    rankTier: String,
+    csDiffAtLaningEnd: Number,
+    csPerMinute: Number,
+    damagePerDeath: Number,
+    damagePerGold: Number,
+    damageShare: Number,
+    goldDiffAtLaningEnd: Number,
+    kda: Number,
+    killConversionRatio: Number,
+    killParticipation: Number,
+    objectiveControlRatio: Number,
+    roamDominanceScore: Number,
+    utilityScore:  Number,
+    visionScorePerHour:  Number,
+})
 
 const Match = mongoose.model('Match', matchSchema)
 
@@ -150,5 +180,5 @@ module.exports = {
         await matchDto.save()
 
         return matchDto.toJSON()
-    },
+    }
 };

@@ -87,3 +87,15 @@
   z-index: 2;
   background: inherit;
 }
+
+.upload-button {
+    text-align: center;
+    font-size: 2em;
+    position: relative;
+    top:750px;
+    background: #ccc;
+    left: 600px;
+    width: 200px;
+    padding: 10px;
+    color: black;
+}

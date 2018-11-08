@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="Loader.cs" />
+    <Compile Include="RUB.cs" />
     <Compile Include="ViewLeaderboardPrompt.xaml.cs">
       <DependentUpon>ViewLeaderboardPrompt.xaml</DependentUpon>
     </Compile>
