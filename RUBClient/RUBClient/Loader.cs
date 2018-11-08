@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using LcuApi;
-using Newtonsoft.Json;
-using RUBClient.Properties;
 
 namespace RUBClient
 {
@@ -80,56 +75,27 @@ namespace RUBClient
 
                         var stats = await client.EndOfGame.GetEndOfGameStats();
 
-                        using (var uploadClient = new HttpClient())
+                        using (var rubClient = new RUB())
                         {
-                            var res = await uploadClient.PostAsync(
-                                $"{ConfigurationManager.AppSettings["Server"]}{ConfigurationManager.AppSettings["PostMatchUrl"]}",
-                                new StringContent(
-                                    JsonConvert.SerializeObject(stats),
-                                    Encoding.UTF8,
-                                    "application/json")
-                            );
+                            var redirectLocation = await rubClient.GetMatchUrl(stats);
 
                             if (await PromptForView())
                             {
-                                string redirectLocation;
-
-                                if (res.StatusCode == HttpStatusCode.RedirectMethod)
+                                if (!await rubClient.ReplayExists(stats.GameId))
                                 {
-                                    redirectLocation = res.Headers.Location.ToString();
-                                }
-                                else
-                                {
-                                    continue;
-                                }
-
-                                if (!await client.Replays.DownloadMatchReplay(stats.GameId))
-                                {
-                                    continue;
-                                }
-
-                                var replayFile = $"{await client.Replays.GetRoflsPath()}/NA1-{stats.GameId}.rofl";
-
-                                while (!File.Exists(replayFile))
-                                {
-                                    await Task.Delay(50);
-                                }
-
-                                using (var replay = File.OpenRead(replayFile))
-                                {
-                                    var fileData = new MultipartFormDataContent
+                                    if (!await client.Replays.DownloadMatchReplay(stats.GameId))
                                     {
-                                        {new StreamContent(replay), "file", $"NA1-{stats.GameId}.rofl"}
-                                    };
+                                        continue;
+                                    }
 
-                                    fileData.Headers.Add("match-id", stats.GameId.ToString());
-                                    fileData.Headers.Add("summoner-id", stats.SummonerId.ToString());
+                                    var replayFile = $"{await client.Replays.GetRoflsPath()}/NA1-{stats.GameId}.rofl";
 
-                                    var uploadRes = await uploadClient.PostAsync(
-                                        $"{ConfigurationManager.AppSettings["Server"]}{ConfigurationManager.AppSettings["UploadUrl"]}",
-                                        fileData);
+                                    while (!File.Exists(replayFile))
+                                    {
+                                        await Task.Delay(50);
+                                    }
 
-                                    if (!uploadRes.IsSuccessStatusCode)
+                                    if (!await rubClient.UploadReplayForGame(replayFile, stats.GameId, stats.SummonerId))
                                     {
                                         continue;
                                     }
