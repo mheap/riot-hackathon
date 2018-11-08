@@ -31,23 +31,23 @@ app.get('/static-data', (req, res) => {
 app.get('/match', async (req, res) => {
   try {
     console.log(`/match/v3/matches/${req.query.matchId}`)
-    if (!req.query.matchId)
-    {
+    if (!req.query.matchId) {
       res.status(400)
       res.send('missing matchId!')
       return
     }
 
     const gameData = await matchStore.getMatch(req.query.matchId)
-    console.log(JSON.stringify(gameData))
+    gameData = JSON.stringify(JSON.parse(gameData));
     let sanitizedData = {};
+    console.log(gameData)
 
     sanitizedData.userIdentity = gameData.participantIdentities.filter(_pId => _pId.player.summonerName == req.query.summonerName && _pId.player);
-    console.log(JSON.stringify(sanitizedData))
-    sanitizedData.userParticipant = gameData.participants.filter(_p => sanitizedData.userIdentity[0].participantId === _p.participantId && _p)
-    sanitizedData.champData = riotApiHelper.findChamp(sanitizedData, staticData.champions);
-    sanitizedData.userItems = riotApiHelper.mapItems(sanitizedData, staticData.items);
-    sanitizedData.userSpells = riotApiHelper.mapSpells(sanitizedData, staticData.spells);
+    sanitizedData.userParticipant = gameData.participants.filter(_p => sanitizedData.userIdentity.participantId === _p.participantId && _p)
+    // sanitizedData.champData = riotApiHelper.findChamp(sanitizedData, staticData.champions);
+    // sanitizedData.userItems = riotApiHelper.mapItems(sanitizedData, staticData.items);
+    // sanitizedData.userSpells = riotApiHelper.mapSpells(sanitizedData, staticData.spells);
+    console.log(sanitizedData);
 
     res.send(sanitizedData);
   } catch(e) {
