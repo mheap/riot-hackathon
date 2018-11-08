@@ -145,9 +145,9 @@ namespace LcuApi
 
         public class StatsBlock
         {
-            public int AccountId { get; set; }
-            public int GameId { get; set; }
-            public int SummonerId { get; set; }
+            public long AccountId { get; set; }
+            public long GameId { get; set; }
+            public long SummonerId { get; set; }
         }
 
         private readonly HttpClient _client;
