@@ -1,6 +1,9 @@
 const riotApiHelper = require("./riotApiHelper");
+const matchStore = require('./matchStore')
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
 const axios = require('axios');
 require('dotenv').config();
 
@@ -23,6 +26,11 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.post('/upload', async (req, res) => {
+  console.log(req.body);
+  res.send('whuat');
+})
+
 app.get('/static-data', (req, res) => {
   res.send(staticData);
 });
@@ -30,25 +38,38 @@ app.get('/static-data', (req, res) => {
 app.get('/match', async (req, res) => {
   try {
     console.log(`/match/v3/matches/${req.query.matchId}`)
-    const match = await baseRequest.get(`/match/v3/matches/${req.query.matchId}`)
-    const gameData = match.data;
+    if (!req.query.matchId) {
+      res.status(400)
+      res.send('missing matchId!')
+      return
+    }
 
-    gameData.userIdentity = gameData.participantIdentities.filter(_pId => _pId.player.summonerName === req.query.summonerName && _pId.player);
-    gameData.userParticipant = gameData.participants.filter(_p => gameData.userIdentity[0].participantId === _p.participantId && _p)
-    gameData.champData = riotApiHelper.findChamp(gameData, staticData.champions);
-    gameData.userItems = riotApiHelper.mapItems(gameData, staticData.items);
-    gameData.userSpells = riotApiHelper.mapSpells(gameData, staticData.spells);
+    const gameData = await matchStore.getMatch(req.query.matchId);
+    //console.log(JSON.stringify(gameData));
+    //gameData = JSON.stringify(JSON.parse(gameData));
+    let sanitizedData = {};
+    //console.log(gameData);
 
-    res.send(gameData);
+    //console.log(gameData.participants[0])
+
+    sanitizedData.userIdentity = gameData.participantIdentities.filter(_pId => _pId.player[0].summonerName == req.query.summonerName && _pId.player);
+    sanitizedData.userParticipant = gameData.participants.filter(_p => sanitizedData.userIdentity[0].participantId === _p.participantId && _p)
+    // sanitizedData.champData = riotApiHelper.findChamp(sanitizedData, staticData.champions);
+    // sanitizedData.userItems = riotApiHelper.mapItems(sanitizedData, staticData.items);
+    // sanitizedData.userSpells = riotApiHelper.mapSpells(sanitizedData, staticData.spells);
+    //console.log(sanitizedData);
+
+    res.send(sanitizedData);
   } catch(e) {
-    res.status(e.response.data.status.status_code);
+    console.log(e)
+    res.status(500);
 
-    res.send({ message: "Whoops! Something went wrong...", error: e.response.data.status });
+    res.send({ message: "Whoops! Something went wrong...", error: e });
   }
 });
 
-app.listen(process.env.PORT_NUMBER, '0.0.0.0', async () => {
-  console.log(`Server listening on ${process.env.PORT_NUMBER}`);
+app.listen(3000, '0.0.0.0', async () => {
+  console.log(`Server listening on 3000`);
 
   const [champions, items, spells] = await Promise.all([
     axios.get('http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion.json'),
