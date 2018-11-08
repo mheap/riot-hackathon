@@ -4,12 +4,13 @@ import os
 import time
 import subprocess
 import json
+from parse import process_rofl
 
 UPLOAD_FOLDER = 'downloads'
 ALLOWED_EXTENSIONS = set(['rofl'])
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = "./uploads"
 app.secret_key = 'super secret key'
 
 def allowed_file(filename):
@@ -17,8 +18,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def get_basic_data(filename):
-    result = subprocess.run(['dotnet', 'match_id_helper/RoflHelper.dll', filename], stdout=subprocess.PIPE)
-    return result.stdout.decode('UTF-8')
+    return process_rofl(filename)
 
 # used for uploading from the website
 @app.route('/web_upload', methods=['POST'])
@@ -75,7 +75,10 @@ def upload_file():
         if not os.path.isfile(filepath):
             file.save(filepath)
 
-        response = app.response_class(response=str(matchid) + str(playername),status=200,mimetype='text/plain')
+        # get the information from the replay
+        basic_json = get_basic_data(filepath)
+
+        response = app.response_class(response=str(basic_json),status=200,mimetype='text/plain')
         return response
 
 @app.route('/download/<string:matchid>', methods=['GET'])
