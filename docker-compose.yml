@@ -1,0 +1,6 @@
+version: '3'
+services:
+  python_replay:
+    build: ReplayService
+    ports:
+     - "5000:5000"
