@@ -49,8 +49,8 @@ app.get('/match', async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT_NUMBER, '0.0.0.0', async () => {
-  console.log(`Server listening on ${process.env.PORT_NUMBER}`);
+app.listen(3000, '0.0.0.0', async () => {
+  console.log(`Server listening on 3000`);
 
   const [champions, items, spells] = await Promise.all([
     axios.get('http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion.json'),
