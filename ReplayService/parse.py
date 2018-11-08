@@ -125,7 +125,9 @@ class RoflFile(object):
         return self
 
     def __str__(self):
-        return self.metadata.as_json()
+        x = json.loads(self.metadata.as_json())
+        x['MatchId'] = self.payload_header.game_id
+        return json.dumps(x)
 
 
 def process_rofl(rofl_file):
