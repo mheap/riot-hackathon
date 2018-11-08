@@ -95,7 +95,7 @@ table {
 
 table {
     border-collapse:separate;
-    border:solid black 5px;
+    border:solid black 3px;
     border-radius:8px;
     -moz-border-radius:6px;
     width: 100%;
@@ -121,9 +121,6 @@ td:first-child, th:first-child {
      border-left: none;
 }
 
-
-
-
 /*Title Styling*/
 @import url(https://fonts.googleapis.com/css?family=Arvo:700);
 @import url(https://fonts.googleapis.com/css?family=Seaweed+Script);
@@ -133,6 +130,7 @@ td:first-child, th:first-child {
   display: flex-block;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .shadow {

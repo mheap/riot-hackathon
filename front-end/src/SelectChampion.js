@@ -2,17 +2,14 @@ import React, { Component } from 'react';
 import { GridGenerator, HexGrid, Layout, Hexagon, Text, Pattern } from 'react-hexgrid';
 import ReactDropzone from "react-dropzone";
 import request from "superagent";
-
 import './App.css';
 import {champions, profileImage} from './champion';
-import ReactTable from "react-table";
-import 'react-table/react-table.css';
 
 export default class SelectChampion extends Component {
 
     constructor(props) {
       super(props);
-        this.uploadText = 'Drop your replay here'
+      this.uploadText = 'Drop your replay here'
     }
 
     onDrop = (files) => {
@@ -46,9 +43,9 @@ export default class SelectChampion extends Component {
             <p className="shadow text2">ROFL</p>
           </div>
           <div className="upload-button">
-          <ReactDropzone disableClick onDrop={this.onDrop}>
-          <p dangerouslySetInnerHTML={{__html: this.uploadText}} />
-          </ReactDropzone>
+            <ReactDropzone disableClick onDrop={this.onDrop}>
+              <p dangerouslySetInnerHTML={{__html: this.uploadText}} />
+            </ReactDropzone>
           </div>
           <HexGrid width={1200} height={1250}>
 
