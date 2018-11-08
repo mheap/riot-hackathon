@@ -1,11 +1,12 @@
 import struct
 import json
+
 try:
     from cStringIO import StringIO
 except:
     from StringIO import StringIO
 
-ROFL_MAGIC = 'RIOT' + chr(0) * 2
+ROFL_MAGIC = "RIOT" + chr(0) * 2
 
 class Struct(object):
     format = None
@@ -36,6 +37,7 @@ class Struct(object):
             else:
                 setattr(self, field_name, field_value)
 
+
 class CompositeStruct(Struct):
     @classmethod
     def read(cls, fh, fileobj, extradata=None):
@@ -52,22 +54,29 @@ class CompositeStructList(Struct):
         self.outer = fileobj
         self.data = []
         for clazz, ed in zip(
-            cls.get_format(fileobj, extradata=extradata),
-            cls.get_extradata(fileobj)
+            cls.get_format(fileobj, extradata=extradata), cls.get_extradata(fileobj)
         ):
             self.data.append(clazz.read(fh, self, extradata=ed))
         return self
 
+
 class RoflHeader(Struct):
-    format = '6s256sHIIIIII'
+    format = "6s256sHIIIIII"
     fields = [
-        'magic', 'signature', 'header_len', 'file_len',
-        'metadata_offset', 'metadata_len', 'payload_header_offset',
-        'payload_header_len', 'payload_offset'
+        "magic",
+        "signature",
+        "header_len",
+        "file_len",
+        "metadata_offset",
+        "metadata_len",
+        "payload_header_offset",
+        "payload_header_len",
+        "payload_offset",
     ]
 
+
 class RoflMetadata(Struct):
-    fields = ['json']
+    fields = ["json"]
 
     @classmethod
     def get_format(cls, fileobj, extradata):
@@ -75,26 +84,34 @@ class RoflMetadata(Struct):
 
     def unpack_json(self, field_name, field_value, fileobj, extradata):
         self.json = json.loads(field_value)
-        self.json['statsJson'] = json.loads(self.json['statsJson'])
+        self.json["statsJson"] = json.loads(self.json["statsJson"])
         return self.json
 
     def as_json(self):
         return json.dumps(self.json, indent=4)
 
+
 class RoflPayloadHeader(Struct):
-    format = 'QIIIIIIH'
+    format = "QIIIIIIH"
     fields = [
-        'game_id', 'game_length', 'keyframe_count', 'chunk_count',
-        'end_startup_chunk_id', 'start_game_chunk_id', 'keyframe_interval',
-        'encryption_key_length'
+        "game_id",
+        "game_length",
+        "keyframe_count",
+        "chunk_count",
+        "end_startup_chunk_id",
+        "start_game_chunk_id",
+        "keyframe_interval",
+        "encryption_key_length",
     ]
 
     def __str__(self):
-        return "<RoflPayloadHeader - game ID: {} - game length: {} - " + \
-            "keyframe count: {} - chunk count: {}>".format(
-                self.game_id, self.game_length,
-                self.keyframe_count, self.chunk_count
+        return (
+            "<RoflPayloadHeader - game ID: {} - game length: {} - "
+            + "keyframe count: {} - chunk count: {}>".format(
+                self.game_id, self.game_length, self.keyframe_count, self.chunk_count
             )
+        )
+
 
 class RoflFile(object):
     @classmethod
@@ -110,19 +127,7 @@ class RoflFile(object):
     def __str__(self):
         return self.metadata.as_json()
 
+
 def process_rofl(rofl_file):
-    with open(rofl_file, 'rb') as f:
+    with open(rofl_file, "rb") as f:
         return RoflFile.read(f)
-
-
-if __name__ == '__main__':
-    import sys
-    import os.path
-
-    if len(sys.argv) != 2:
-        print "{} <ROFL file>".format(sys.argv[0])
-        sys.exit(0)
-
-    my_name, rofl_file = sys.argv
-
-    print process_rofl(rofl_file)
