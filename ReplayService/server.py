@@ -18,10 +18,6 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-def get_basic_data(filename):
-    return process_rofl(filename)
-
-
 # used for uploading from the website
 @app.route("/web_upload", methods=["POST"])
 def upload_file_web():
@@ -46,11 +42,12 @@ def upload_file_web():
         tempfilepath = os.path.join(
             app.config["UPLOAD_FOLDER"], str(time.time()) + tempfilename
         )
+
         file.save(tempfilepath)
         # get the information from the replay
-        basic_json = get_basic_data(tempfilepath)
+        basic_json = process_rofl(tempfilepath)
         # grab the match id and make a path using new file name
-        filename = str((json.loads(basic_json))["MatchId"]) + ".rofl"
+        filename = str((json.loads(str(basic_json)))["MatchId"]) + ".rofl"
         filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
 
         # check if the new file name exists, if not rename. Otherwise delete temporary
@@ -60,7 +57,7 @@ def upload_file_web():
             os.remove(tempfilepath)
 
         response = app.response_class(
-            response=basic_json, status=200, mimetype="application/json"
+            response=str(basic_json), status=200, mimetype="application/json"
         )
         return response
 
@@ -91,7 +88,7 @@ def upload_file():
             file.save(filepath)
 
         # get the information from the replay
-        basic_json = get_basic_data(filepath)
+        basic_json = process_rofl(filepath)
 
         response = app.response_class(
             response=str(basic_json), status=200, mimetype="text/plain"
