@@ -1,4 +1,5 @@
 const riotApiHelper = require("./riotApiHelper");
+const matchStore = require('./matchStore')
 const express = require('express');
 const app = express();
 const axios = require('axios');
@@ -30,12 +31,19 @@ app.get('/static-data', (req, res) => {
 app.get('/match', async (req, res) => {
   try {
     console.log(`/match/v3/matches/${req.query.matchId}`)
-    const match = await baseRequest.get(`/match/v3/matches/${req.query.matchId}`)
-    const gameData = match.data;
+    if (!req.query.matchId)
+    {
+      res.status(400)
+      res.send('missing matchId!')
+      return
+    }
 
+    const gameData = await matchStore.getMatch(req.query.matchId)
+    console.log(JSON.stringify(gameData))
     let sanitizedData = {};
 
-    sanitizedData.userIdentity = gameData.participantIdentities.filter(_pId => _pId.player.summonerName === req.query.summonerName && _pId.player);
+    sanitizedData.userIdentity = gameData.participantIdentities.filter(_pId => _pId.player.summonerName == req.query.summonerName && _pId.player);
+    console.log(JSON.stringify(sanitizedData))
     sanitizedData.userParticipant = gameData.participants.filter(_p => sanitizedData.userIdentity[0].participantId === _p.participantId && _p)
     sanitizedData.champData = riotApiHelper.findChamp(sanitizedData, staticData.champions);
     gameData.userItems = riotApiHelper.mapItems(sanitizedData, staticData.items);
@@ -43,9 +51,10 @@ app.get('/match', async (req, res) => {
 
     res.send(sanitizedData);
   } catch(e) {
-    res.status(e.response.data.status.status_code);
+    console.log(e)
+    res.status(500);
 
-    res.send({ message: "Whoops! Something went wrong...", error: e.response.data.status });
+    res.send({ message: "Whoops! Something went wrong...", error: e });
   }
 });
 
