@@ -1,7 +1,9 @@
 const riotApiHelper = require("./riotApiHelper");
 const matchStore = require('./matchStore')
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
 const axios = require('axios');
 require('dotenv').config();
 
@@ -23,6 +25,11 @@ app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, X-Riot-Token');
   next();
 });
+
+app.post('/upload', async (req, res) => {
+  console.log(req.body);
+  res.send('whuat');
+})
 
 app.get('/static-data', (req, res) => {
   res.send(staticData);
