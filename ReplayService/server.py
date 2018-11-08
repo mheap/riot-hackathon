@@ -2,44 +2,40 @@ from flask import Flask, flash, request, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 import os
 import time
-import subprocess
 import json
 from parse import process_rofl
 
-UPLOAD_FOLDER = "downloads"
 ALLOWED_EXTENSIONS = set(["rofl"])
 
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "./uploads"
 app.secret_key = "super secret key"
 
+def error(msg):
+    return app.response_class(
+            response=json.dumps({"error":  msg}),
+            status=400,
+            mimetype="application/json"
+        )
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 @app.route("/upload", methods=["POST"])
 @app.route("/web_upload", methods=["POST"])
 def upload_file_web():
     # check if the post request has the file part
     if "file" not in request.files:
-        response = app.response_class(
-            response="no file", status=400, mimetype="text/plain"
-        )
-        return response
+        return error("No file provided in the 'file' key")
     file = request.files["file"]
     # if user does not select file, browser also
     # submit an empty part without filename
     if file.filename == "":
-        response = app.response_class(
-            response="empty file", status=400, mimetype="text/plain"
-        )
-        return response
+        return error("No filename provided")
     # passes
     if file and allowed_file(file.filename):
-
+        # If the user provided a match ID, use that name
         if "match-id" in request.headers:
-            # If the user provided a match ID, use that name
             matchid = request.headers["match-id"]
             filepath = os.path.join(app.config["UPLOAD_FOLDER"], str(matchid) + ".rofl")
             if not os.path.isfile(filepath):
@@ -47,7 +43,7 @@ def upload_file_web():
 
             basic_json = process_rofl(filepath)
         else:
-            # If the user didn't specify a match ID, read it from the provided file
+        # If the user didn't specify a match ID, read it from the provided file
             tempfilename = secure_filename(file.filename)
             tempfilepath = os.path.join(
                 app.config["UPLOAD_FOLDER"], str(time.time()) + tempfilename
@@ -67,10 +63,9 @@ def upload_file_web():
             else:
                 os.remove(tempfilepath)
 
-        response = app.response_class(
+        return app.response_class(
             response=str(basic_json), status=200, mimetype="application/json"
         )
-        return response
 
 @app.route("/download/<string:matchid>", methods=["GET"])
 def download_file(matchid):
@@ -82,11 +77,7 @@ def download_file(matchid):
             filename=_filename,
             as_attachment=True,
         )
-    else:
-        response = app.response_class(
-            response="not found", status=404, mimetype="text/plain"
-        )
-        return response
+    return error("File not found: " + matchid)
 
 
 if __name__ == "__main__":
