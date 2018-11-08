@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom'
-import App from './App';
+import SelectChampion from './SelectChampion';
 import './index.css';
 
 const ChampionPage = () => <div>Champion Page</div>
@@ -9,7 +9,7 @@ const ChampionPage = () => <div>Champion Page</div>
 const PrimaryLayout = () => (
   <div className="primary-layout">
     <main>
-      <Route path="/" exact component={App} />
+      <Route path="/" exact component={SelectChampion} />
       <Route path="/:champion/leaderboard" component={ChampionPage} />
     </main>
   </div>
