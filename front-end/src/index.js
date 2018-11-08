@@ -2,9 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom'
 import SelectChampion from './SelectChampion';
+import ChampionPage from './ChampionPage';
 import './index.css';
-
-const ChampionPage = () => <div>Champion Page</div>
 
 const PrimaryLayout = () => (
   <div className="primary-layout">
