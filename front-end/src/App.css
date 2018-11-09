@@ -102,3 +102,8 @@
     height: 203px;
     font-family: monospace;
 }
+
+.demoText {
+    background: white;
+    padding: 5px 30px;
+}
