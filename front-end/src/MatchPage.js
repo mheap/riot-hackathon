@@ -24,7 +24,8 @@ export default class MatchPage extends Component {
                 killParticipation: data.body.rawGameScore.killParticipation,
                 csPerMinute: data.body.rawGameScore.creepKillsPerMinute,
                 matchId: this.props.match.params.match_id,
-                dmgPercentage: data.body.rawGameScore.teamDamagePercentage
+                dmgPercentage: data.body.rawGameScore.teamDamagePercentage,
+                sumIconID: data.body.userIdentity[0].player[0].profileIcon
             });
         });
     }
@@ -39,6 +40,7 @@ export default class MatchPage extends Component {
         let csPerMinute = this.state.csPerMinute;
         let matchId = this.state.matchId;
         let dmgPercentage = this.state.dmgPercentage;
+        let sumIconID = this.state.sumIconID;
 
         console.log(items);
 
@@ -71,7 +73,7 @@ export default class MatchPage extends Component {
                 <div className="matchpageleft">
                   <div className="matchpageleftbox">
                     <div>
-                      <img className="matchpagechampimg" src="https://vignette.wikia.nocookie.net/leagueoflegends/images/6/66/Fat_Poro_Icon.png/revision/latest?cb=20150215130030" />
+                      <img className="matchpagechampimg" src={"http://ddragon.leagueoflegends.com/cdn/8.22.1/img/profileicon/" + sumIconID + ".png"} />
                     </div>
                     <div>
                       <div className="shadow text1 matchsummonername">{localStorage.getItem('summonerName')}</div>
@@ -80,7 +82,7 @@ export default class MatchPage extends Component {
                   </div>
                   <div className="matchpageleftbox">
                     <div>Match ID#: {matchId}</div>
-                    <button className="downloadbutton">WATCH REPLAY</button>
+                    <a href={"roflmao://match-id/" + matchId} className="downloadbutton">WATCH REPLAY</a>
                   </div>
                   <div className="matchpageleftbox">
                     <div>
