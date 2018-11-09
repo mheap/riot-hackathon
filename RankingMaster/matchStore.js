@@ -1,19 +1,18 @@
+const mongoose = require('mongoose');
+const { Kayn } = require('kayn');
 
-const mongoose = require('mongoose')
-const { Kayn } = require('kayn')
-
-const kayn = Kayn()()
+const kayn = Kayn()();
 
 const playerSchema = new mongoose.Schema({
     summonerName: String,
     summonerId: Number,
     currentAccountId: Number,
     profileIcon: Number,
-})
+});
 const participantIdSchema = new mongoose.Schema({
     player: [playerSchema],
     participantId: Number,
-})
+});
 const participantStatsSchema = new mongoose.Schema({
     firstBloodKill: Boolean,
     firstBloodAssist: Boolean,
@@ -72,7 +71,7 @@ const participantStatsSchema = new mongoose.Schema({
     totalHeal: Number,
     totalMinionsKilled: Number,
     timeCCingOthers: Number,
-})
+});
 const participantTimelineSchema = new mongoose.Schema({
     lane: String,
     participantId: Number,
@@ -105,13 +104,13 @@ const participantTimelineSchema = new mongoose.Schema({
         type: Map,
         of: Number,
     },
-})
+});
 const participantSchema = new mongoose.Schema({
     stats: participantStatsSchema,
     participantId: Number,
     timeline: participantTimelineSchema,
     championId: Number
-})
+});
 const matchSchema = new mongoose.Schema({
     seasonId: Number,
     queueId: Number,
@@ -119,36 +118,76 @@ const matchSchema = new mongoose.Schema({
     participantIdentities: [participantIdSchema],
     participants: [participantSchema],
     platformId: String,
-})
+});
+const playerStatsSchema = new mongoose.Schema({
+    internalRanking: Number,
+    externalRanking: String,
+    rating: Number,
+    championId: Number,
+    match: [matchSchema],
+    playerIdentity: [playerSchema]
+});
+const commentSchema = new mongoose.Schema({
+    username: String,
+    comment: String,
+    timestamp: Date
+});
+const champBaseline = new mongoose.Schema({
+    championId: Number,
+    position: String,
+    queueType: String,
+    rankTier: String,
+    csDiffAtLaningEnd: Number,
+    csPerMinute: Number,
+    damagePerDeath: Number,
+    damagePerGold: Number,
+    damageShare: Number,
+    goldDiffAtLaningEnd: Number,
+    kda: Number,
+    killConversionRatio: Number,
+    killParticipation: Number,
+    objectiveControlRatio: Number,
+    roamDominanceScore: Number,
+    utilityScore:  Number,
+    visionScorePerHour:  Number,
+});
 
-const Match = mongoose.model('Match', matchSchema)
+const Match = mongoose.model('Match', matchSchema);
+const PlayerStats = mongoose.model('PlayerStats', playerStatsSchema);
 
 const init = async () => {
     if (init.done !== undefined) {
-        return
+        return;
     }
 
-    init.done = true
-    console.log('connecting to mongo...')
-    await mongoose.connect('mongodb://database/match')
-    console.log('connected!')
+    init.done = true;
+    console.log('connecting to mongo...');
+    await mongoose.connect('mongodb://database/match');
+    console.log('connected!');
 }
 
 module.exports = {
     getMatch: async (matchId) => {
-        await init()
-        await Match.findOneAndDelete({gameId: matchId})
-        let match = await Match.findOne({getMatchId: matchId})
+        await init();
+        await Match.findOneAndDelete({gameId: matchId});
+        let match = await Match.findOne({getMatchId: matchId});
 
         if (match) {
-            return match
+            return match;
         }
 
-        match = await kayn.Match.get(matchId)
+        match = await kayn.Match.get(matchId);
 
-        const matchDto = new Match(match)
-        await matchDto.save()
+        const matchDto = new Match(match);
+        await matchDto.save();
 
-        return matchDto.toJSON()
+        return matchDto.toJSON();
     },
+
+    getLeaderboard: async (championId) => {
+        await init();
+        const leaderboard = await PlayerStats.find({ championId });
+
+        return leaderboard.toJSON();
+    }
 };

@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using LcuApi;
+using Newtonsoft.Json;
 
 namespace RUBClient
 {
@@ -19,6 +23,12 @@ namespace RUBClient
             {
                 AsyncPlay(args).Wait();
                 Environment.Exit(1);
+            }
+            else if (args.Length > 1)
+            {
+                var collectArg = args.SkipWhile(arg => arg != "--collect").Skip(1).Take(1).First();
+
+                CollectMainAsync(collectArg).Wait();
             }
             else
             {
@@ -136,6 +146,51 @@ namespace RUBClient
             {
                 Console.WriteLine(e);
                 throw;
+            }
+        }
+
+        private class ChampStats
+        {
+            public int ChampionId { get; set; }
+            public List<CareerStats.ChampionQueueStatsDto> StatsPerPosition { get; set; }
+        }
+
+        public static async Task CollectMainAsync(string arg)
+        {
+            var championIds = await StaticData.GetChampionIds();
+            var client = await Client.Connect();
+
+            var allStats = new List<ChampStats>();
+
+            foreach (var championId in championIds)
+            {
+                var champStats = new ChampStats
+                {
+                    ChampionId = championId,
+                    StatsPerPosition = new List<CareerStats.ChampionQueueStatsDto>(),
+                };
+
+                foreach (Position position in Enum.GetValues(typeof(Position)))
+                {
+                    var stats = await client.CareerStats.GetChampionAverage(
+                        championId, 
+                        position, 
+                        Tier.ALL,
+                        Queue.rank5solo);
+
+                    champStats.StatsPerPosition.Add(stats);
+                }
+
+                allStats.Add(champStats);
+            }
+
+            using(var outFile = File.OpenWrite(arg))
+            {
+                using (var writer = new StreamWriter(outFile, Encoding.UTF8))
+                {
+                    var serializeObject = JsonConvert.SerializeObject(allStats, Formatting.Indented);
+                    await writer.WriteAsync(serializeObject);
+                }
             }
         }
 
