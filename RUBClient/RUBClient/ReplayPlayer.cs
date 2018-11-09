@@ -18,6 +18,7 @@ namespace RUBClient
         {
             matchId = ParseURI(uri);
             filePath = null;
+            System.IO.Directory.CreateDirectory(ConfigurationManager.AppSettings["DownloadPath"]);
         }
 
         public async Task<bool> DownloadReplay()
