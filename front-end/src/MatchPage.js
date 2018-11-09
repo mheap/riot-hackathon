@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import request from "superagent";
+import {champions, profileImage} from './champion';
 
 export default class MatchPage extends Component {
 
@@ -44,25 +45,72 @@ export default class MatchPage extends Component {
     render() {
         let champion = this.state.champion;
 
-        if (!this.state || !this.state.champion) {
-            return (
-                <div className="championpagecontainer">
-                <div className="championpagetop">
-                <div className="championTitle script">Loading...</div>
-                </div>
-                </div>
-            );
-        }
 
         return (
-            <div className="championpagecontainer">
-            <div className="championpagetop">
-              <div className="championTitle script">{champion.name}</div>
-              <div className="championTitle script">{champion.name}</div>
+            <div>
+              <a href="/">
+                <div id="arrowAnim">
+                  <div className="arrowSliding">
+                    <div className="arrow"></div>
+                  </div>
+                  <div className="arrowSliding delay1">
+                    <div className="arrow"></div>
+                  </div>
+                  <div className="arrowSliding delay2">
+                    <div className="arrow"></div>
+                  </div>
+                  <div className="arrowSliding delay3">
+                    <div className="arrow"></div>
+                  </div>
+                </div>
+              </a>
+
+
+
+              <div className="matchpagecontainer">
+                <div className="matchpageleft">
+                  <div className="matchpageleftbox">
+                    <div>
+                      <img className="matchpagechampimg" src="https://vignette.wikia.nocookie.net/leagueoflegends/images/6/66/Fat_Poro_Icon.png/revision/latest?cb=20150215130030" />
+                    </div>
+                    <div>
+                      <div className="shadow text1 matchsummonername">Summoner Name</div>
+                      <div>Rank "Number" "Champion Name" in "Region"</div>
+                    </div>
+                    <div>
+                      <div>Match Date</div>
+                    </div>
+                  </div>
+                  <div className="matchpageleftbox">
+                    <div>Match ID#</div>
+                    <button className="downloadbutton">WATCH REPLAY</button>
+                  </div>
+                  <div className="matchpageleftbox">
+                    <div className="statbox">
+                      <div className="stat">KDA: </div>
+                      <div className="stat">Largest Killing Spree: </div>
+                      <div className="stat">Game Time: </div>
+                      <div className="stat">Time Stamp: </div>
+                    </div>
+                    <div className="statbox">
+                      <div className="stat">Win/Loss: </div>
+                      <div className="stat">Level: </div>
+                      <div className="stat">CS: </div>
+                      <div className="stat">Kill Participation: </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="matchpageright">
+                  <div className="championimagebox">
+                    <img className="matchpagechampimg" src="https://i.imgur.com/ghyDiLCl.jpg" />
+                  </div>
+                  <div className="championname">Champion Name</div>
+                  <div className="championdescription">Champion Description</div>
+                </div>
+
+              </div>
             </div>
-        </div>
         )
     }
 
 }
-

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Spicy+Rice');
+
 body {
   margin: 0;
   padding: 1em;
@@ -57,7 +59,6 @@ svg g text  {
 .championpagecontainer {
   height: 100%;
   width: 100%;
-
 }
 
 .championpagetop {
@@ -256,4 +257,151 @@ td:first-child, th:first-child {
    20% { opacity:1; transform: translateX(2vw); }
    80% { opacity:1; transform: translateX(-2vw); }
   100% { opacity:0; transform: translateX(-5vw); }
+}
+
+.matchpagecontainer {
+  font-family: 'Spicy Rice', cursive;
+  color: white;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.matchpageleft {
+  width: 65%;
+  text-align: center;
+  vertical-align: middle;
+  margin-bottom: 10%;
+}
+
+.matchpageleftbox {
+  width: 80%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10%;
+  background: rgba(0,0,0, 0.6);
+  opacity: 0.75;
+  text-align: center;
+  border: solid black 5px;
+  border-radius: 15px;
+  padding: 5%;
+}
+
+.left-1 {
+  width: 85%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10%;
+  background: rgba(0,0,0, 0.6);
+  opacity: 0.75;
+  text-align: center;
+  border: solid black 5px;
+  border-radius: 15px;
+  padding: 5%;
+}
+
+.left-2 {
+  width: 85%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10%;
+  background: rgba(0,0,0, 0.6);
+  opacity: 0.75;
+  text-align: center;
+  border: solid black 5px;
+  border-radius: 15px;
+  padding: 5%;
+}
+
+.left-3 {
+  width: 85%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10%;
+  background: rgba(0,0,0, 0.6);
+  opacity: 0.75;
+  text-align: center;
+  border: solid black 5px;
+  border-radius: 15px;
+  padding: 5%;
+}
+
+.left-4 {
+  width: 85%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10%;
+  background: rgba(0,0,0, 0.6);
+  opacity: 0.75;
+  text-align: center;
+  border: solid black 5px;
+  border-radius: 15px;
+  padding: 5%;
+}
+
+.matchpageright {
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.championimagebox {
+  width: 100%;
+}
+
+.championname {
+  width: 100%;
+}
+
+.championdescription {
+  width: 100%;
+}
+
+.matchpagechampimg {
+  height: 175px;
+  width: 175px;
+  border: solid grey 5px;
+  border-radius: 20px;
+  display: block;
+}
+
+.downloadbutton {
+  border: none;
+  background: #404040;
+  color: #ffffff !important;
+  font-weight: 100;
+  text-transform: uppercase;
+  border-radius: 6px;
+  display: inline-block;
+  padding: 20px;
+}
+
+.downloadbutton:hover {
+  font-weight: 700 !important;
+  letter-spacing: 3px;
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  transition: all 0.3s ease 0s;
+}
+
+.matchsummonername {
+  margin-bottom: 5%;
+}
+
+.statbox {
+  width: 100%;
+  display: block;
+}
+
+.stat {
+  width: 25%;
 }
