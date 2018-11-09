@@ -16,11 +16,11 @@ export default class MatchPage extends Component {
         res.then((data) => {
             console.log(data.body);
             this.setState({
-                champion: data.body.champData,
+                champion: data.body.champ,
                 stats: data.body.rawGameScore,
-                raw: data.body.userParticipant[0].stats,
-                items: data.body.userItems,
-                gametime: data.body.gameDuration,
+                raw: data.body.myData,
+                items: [], //data.body.userItems,
+                gametime: data.body.match.gameDuration,
                 killParticipation: data.body.rawGameScore.killParticipation,
                 csPerMinute: data.body.rawGameScore.creepKillsPerMinute,
                 matchId: this.props.match.params.match_id,

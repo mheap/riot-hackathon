@@ -43,7 +43,6 @@ app.get('/static-data', (req, res) => {
 
 app.get('/match', async (req, res) => {
   try {
-    console.log(`/match/v3/matches/${req.query.matchId}`)
     if (!req.query.matchId) {
       res.status(400)
       res.send('missing matchId!')
@@ -58,7 +57,20 @@ app.get('/match', async (req, res) => {
 
     const sanitizedData = await matchStore.getRankForPlayerMatch(req.query.summonerName, req.query.matchId, staticData)
 
-    console.log('rank', rank)
+      sanitizedData.match = sanitizedData.match[0];
+      sanitizedData.myData = sanitizedData.match.participants.filter((d) => d.championId == sanitizedData.championId)[0];
+      sanitizedData.champ = Object.values(staticData.champions.data).filter((d) => {return d.key == sanitizedData.championId})[0];
+
+      const user = sanitizedData.myData;
+      sanitizedData.rawGameScore = {};
+          sanitizedData.rawGameScore.creepKillsPerMinute = user.stats.totalMinionsKilled / sanitizedData.gameDuration;
+    sanitizedData.rawGameScore.kda = (user.stats.kills + user.stats.assists) / user.stats.deaths;
+    sanitizedData.rawGameScore.visionScore = user.stats.visionScore;
+    sanitizedData.rawGameScore.csLaneDiff = user.timeline.csDiffPerMinDeltas["0-10"] + user.timeline.csDiffPerMinDeltas["10-20"];
+    sanitizedData.rawGameScore.damagePerGold = user.stats.totalDamageDealtToChampions / user.stats.goldEarned;
+    sanitizedData.rawGameScore.damagePerDeath = user.stats.totalDamageDealtToChampions / user.stats.deaths;
+    sanitizedData.rawGameScore.teamDamagePercentage =  user.stats.totalDamageDealtToChampions / sanitizedData.totalGameDamage;
+    sanitizedData.rawGameScore.killParticipation = user.stats.kills / sanitizedData.totalGameKills;
 
     res.send(sanitizedData);
   } catch(e) {
