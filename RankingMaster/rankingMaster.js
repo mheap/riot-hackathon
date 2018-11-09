@@ -82,6 +82,11 @@ app.post('/evaluate', async (req, res) => {
   // matchStore.setLeaderboard(req.params.player, req.params.matchId, req.params.championId);
 });
 
+app.get('/seed', (req, res) => {
+  matchStore.startSeed()
+  res.send('ok')
+})
+
 
 app.listen(3000, '0.0.0.0', async () => {
   console.log(`Server listening on 3000`);
