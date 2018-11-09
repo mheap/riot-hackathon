@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Spicy+Rice');
+@import url('https://fonts.googleapis.com/css?family=Patrick+Hand');
 
 body {
   margin: 0;
@@ -260,7 +260,7 @@ td:first-child, th:first-child {
 }
 
 .matchpagecontainer {
-  font-family: 'Spicy Rice', cursive;
+  font-family: 'Patrick Hand', cursive;
   color: white;
   height: 100%;
   width: 100%;
@@ -362,12 +362,14 @@ td:first-child, th:first-child {
 .championname {
   display: flex;
   justify-content: center;
-  margin-bottom: 20%;
+  margin-bottom: 10%;
 }
 
 .championdescription {
   display: flex;
   justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .matchpagerighttext {
@@ -380,6 +382,7 @@ td:first-child, th:first-child {
 
 .championname {
   width: 100%;
+  font-size: 35px;
 }
 
 .championdescription {
@@ -418,10 +421,23 @@ td:first-child, th:first-child {
 }
 
 .statbox {
-  width: 100%;
-  display: block;
+  width: 25%;
+  text-align: left;
+  line-height: 2.5em;
 }
 
 .stat {
-  width: 25%;
+
+}
+
+.itemstitle {
+  font-size: 20px;
+  margin-bottom: 5%;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  line-height: 2em;
 }
