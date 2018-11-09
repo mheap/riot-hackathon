@@ -80,7 +80,6 @@ export default class MatchPage extends Component {
                   </div>
                   <div className="matchpageleftbox">
                     <div>Match ID#: {matchId}</div>
-                    <div>Match Date: </div>
                     <a href={"roflmao://match-id/" + matchId} className="downloadbutton">WATCH REPLAY</a>
                   </div>
                   <div className="matchpageleftbox">
