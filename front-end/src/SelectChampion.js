@@ -14,7 +14,7 @@ export default class SelectChampion extends Component {
     constructor(props) {
       super(props);
         this.state = {
-          uploadText: 'Drop your replay here, ' + this.state.summonerName
+          uploadText: 'Drop Your Replay Here, ' + this.state.summonerName
         };
     }
 

@@ -24,11 +24,22 @@ export default class SummonerName extends Component {
         }
 
         return (
-            <div className="demoText">
-                <h1>Choose a Summoner Name</h1>
-                <input id="summonerName" />
-                <button onClick={this.onSubmit}>Change</button>
+          <div>
+            <div className="plate">
+              <p className="shadow text2">ROFLMAO</p>
             </div>
+            <div className="summonerName-wrapper">
+              <div className="summonerNameBox">
+                <div className="nametext">
+                  <h1 id="enterName">Enter Your Summoner Name</h1>
+                  <div id="inputBox">
+                    <input id="summonerName" />
+                  </div>
+                  <button id="submitName" onClick={this.onSubmit}>Show Me the Leaderboard!</button>
+                </div>
+              </div>
+            </div>
+          </div>
         )
 
     }
