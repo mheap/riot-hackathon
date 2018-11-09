@@ -85,6 +85,23 @@ app.get('/match', async (req, res) => {
   }
 });
 
+app.get('/match-history/:summoner_name', async (req, res) => {
+  try {
+    // Map champion ID to champion name
+    let matches = await matchStore.getMatchHistory(req.params.summoner_name);
+
+    matches = matches.map((m) => {
+        m.champion = Object.values(staticData.champions.data).filter((d) => {return d.key == m.champion});
+        return m;
+    });
+    res.send(matches)
+  } catch(e) {
+      console.log(e);
+    res.send({ message: 'Whoops! Something went wrong...', error: e })
+  }
+
+});
+
 app.get('/leaderboard/:champ_id', async (req, res) => {
   // The champ names sent to this endpoint need to be properly capitalized,
   // see the ddragon json payload to confirm
