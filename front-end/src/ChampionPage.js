@@ -10,7 +10,10 @@ export default class ChampionPage extends Component {
     componentDidMount() {
         this.setState({
             matches: [
-                {"summoner":"pseudonym117", "match_id": 1234}
+                {"summoner":"pseudonym117", "match_id": 1938484923},
+                {"summoner":"pseudonym117", "match_id": 2940423082},
+                {"summoner":"pseudonym117", "match_id": 1434034323},
+                {"summoner":"pseudonym117", "match_id": 2434058329},
             ]
         });
     }
@@ -44,20 +47,18 @@ export default class ChampionPage extends Component {
               <table className="championGames">
                 <thead>
                 <tr className="championGame">
-                  <th>World Ranking</th>
+                  <th></th>
                   <th>Summoner Name</th>
                   <th>Match ID</th>
-                  <th>KDA</th>
                   <th>Download Replay</th>
                 </tr>
                 </thead>
                 <tbody>
             {this.state.matches.map((match) => {
                 return (<tr className="championGame">
-                  <td>{match.ranking}</td>
+                <td><img alt={this.props.match.params.champion} src={profileImage(this.props.match.params.champion)} /></td>
                   <td>{match.summoner}</td>
-                  <td>{match.match_id}</td>
-                  <td>{match.kda}</td>
+                  <td><a href={"/match/" + match.match_id}>{match.match_id}</a></td>
                   <td><a href={"roflmao://match-id/" + match.match_id} className="more-info-button">Download</a></td>
                 </tr>)
             })}
