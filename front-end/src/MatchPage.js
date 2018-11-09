@@ -29,7 +29,9 @@ export default class MatchPage extends Component {
     //}
     componentDidMount() {
         // Load information
-        const url = 'http://localhost:3000/match?matchId='+this.props.match.params.match_id+'&summonerName=' + localStorage.getItem("summonerName");
+        //const baseUrl = 'http://localhost:3000/';
+        const baseUrl = 'http://roflmao.eastus.cloudapp.azure.com:3000';
+        const url = baseUrl + '/match?matchId='+this.props.match.params.match_id+'&summonerName=' + localStorage.getItem("summonerName");
         const res = request.get(url);
 
         res.then((data) => {
@@ -104,13 +106,13 @@ export default class MatchPage extends Component {
                   </div>
                   <div className="matchpageleftbox">
                     <div>
-                    <h4 className="itemstitle">Items</h4>
-                    <div className="items">
-                      {items.map((item) => {
-                          if (!item) { return ""; }
-                          return <span>-{item.name}</span>
-                      })}
-                    </div>
+                      <h4 className="itemstitle">Items</h4>
+                      <div className="items">
+                        {items.map((item) => {
+                            if (!item) { return ""; }
+                            return <span>-{item.name}</span>
+                        })}
+                      </div>
                     </div>
 
                     <div className="statbox">
