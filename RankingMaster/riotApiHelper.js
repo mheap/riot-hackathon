@@ -28,12 +28,16 @@ module.exports = {
     champData.champBaselines.forEach(champ => {
       if (champId === champ.ChampionId) {
         Object.keys(champ.StatsPerPosition[2].Stats).forEach(key => {
-          internalScore += champ.StatsPerPosition[2].Stats[key];
+              internalScore += champ.StatsPerPosition[2].Stats[key];
         });
       }
     });
 
-    Object.keys(rawData).forEach(key => rawDataScore += rawData[key]);
+    Object.keys(rawData).forEach(key => {
+      if (!isNaN(rawData[key])){
+        rawDataScore += rawData[key]
+      }
+    });
 
     return rawDataScore / internalScore * 1000;
   }

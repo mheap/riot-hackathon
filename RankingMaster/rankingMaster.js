@@ -74,7 +74,6 @@ app.get('/match', async (req, res) => {
     const rawScore = sanitizedData.rawGameScore;
 
     rawScore.CsPerMinute = user.stats.totalMinionsKilled / sanitizedData.gameDuration;
-    console.log('gameData', gameData)
     rawScore.Kda = (user.stats.kills + user.stats.assists) / user.stats.deaths;
     rawScore.VisionScorePerHour = user.stats.visionScore;
     rawScore.CsDiffAtLaningEnd = user.timeline.csDiffPerMinDeltas["0-10"] + user.timeline.csDiffPerMinDeltas["10-20"];
