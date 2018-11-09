@@ -38,7 +38,12 @@ export default class MatchPage extends Component {
                 champion: data.body.champData,
                 stats: data.body.rawGameScore,
                 raw: data.body.userParticipant[0].stats,
-                items: data.body.userItems
+                items: data.body.userItems,
+                gametime: data.body.gameDuration,
+                killParticipation: data.body.rawGameScore.killParticipation,
+                csPerMinute: data.body.rawGameScore.creepKillsPerMinute,
+                matchId: this.props.match.params.match_id,
+                dmgPercentage: data.body.rawGameScore.teamDamagePercentage
             });
         });
     }
@@ -48,6 +53,11 @@ export default class MatchPage extends Component {
         let stats = this.state.stats;
         let raw = this.state.raw;
         let items = this.state.items;
+        let gametime = this.state.gametime;
+        let killParticipation = this.state.killParticipation;
+        let csPerMinute = this.state.csPerMinute;
+        let matchId = this.state.matchId;
+        let dmgPercentage = this.state.dmgPercentage;
 
         console.log(items);
 
@@ -88,34 +98,32 @@ export default class MatchPage extends Component {
                     </div>
                   </div>
                   <div className="matchpageleftbox">
-                    <div>Match ID#: </div>
+                    <div>Match ID#: {matchId}</div>
                     <div>Match Date: </div>
                     <button className="downloadbutton">WATCH REPLAY</button>
                   </div>
                   <div className="matchpageleftbox">
                     <div>
-                    <h4>Items</h4>
-                    <ul>
-                    {items.map((item) => {
-                        if (!item) { return ""; }
-                        return <li>{item.name}</li>
-                    })}
-                    </ul>
+                    <h4 className="itemstitle">Items</h4>
+                    <div className="items">
+                      {items.map((item) => {
+                          if (!item) { return ""; }
+                          return <span>-{item.name}</span>
+                      })}
+                    </div>
                     </div>
 
                     <div className="statbox">
+                      <div className="stat">Game Time: {Math.round(gametime / 60)} mins</div>
                       <div className="stat">KDA: {raw.kills}/{raw.deaths}/{raw.assists} ({Math.round(stats.kda*100)/100})</div>
                       <div className="stat">Largest Killing Spree: {raw.largestKillingSpree}</div>
-                      <div className="stat">Game Time: </div>
-                      <div className="stat">Time Stamp: </div>
                     </div>
                     <div className="statbox">
-                      <div className="stat">Win/Loss: </div>
-                      <div className="stat">Level: </div>
-                      <div className="stat">CS: </div>
-                      <div className="stat">Kill Participation: </div>
-
+                      <div className="stat">CS: {gametime * csPerMinute}</div>
+                      <div className="stat">CS Per Min: {Math.round(csPerMinute * 100) / 100}</div>
+                      <div className="stat">Kill Participation: {Math.round(killParticipation * 100)}%</div>
                       <div className="stat">Damage Dealt: {raw.totalDamageDealt}</div>
+                      <div className="stat">Team Damage Share: {Math.round(dmgPercentage * 100)}%</div>
                       <div className="stat">Damage Taken: {raw.totalDamageTaken}</div>
                       <div className="stat">Vision Score: {raw.visionScore}</div>
                     </div>
