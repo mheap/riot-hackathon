@@ -101,7 +101,6 @@ export default class MatchPage extends Component {
                   </div>
                   <div className="matchpageleftbox">
                     <div>Match ID#: {matchId}</div>
-                    <div>Match Date: </div>
                     <button className="downloadbutton">WATCH REPLAY</button>
                   </div>
                   <div className="matchpageleftbox">
