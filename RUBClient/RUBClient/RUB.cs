@@ -18,21 +18,9 @@ namespace RUBClient
             this._client = new HttpClient {BaseAddress = new Uri($"{ConfigurationManager.AppSettings["Server"]}")};
         }
 
-        public async Task<string> GetMatchUrl(EndOfGame.StatsBlock stats)
+        public string GetMatchUrl(long matchid)
         {
-            var res = await this._client.PostAsync(
-                ConfigurationManager.AppSettings["EvaluateMatchUrl"],
-                new StringContent(
-                    JsonConvert.SerializeObject(stats),
-                    Encoding.UTF8,
-                    "application/json"));
-
-            if (res.IsSuccessStatusCode)
-            {
-                return JsonConvert.DeserializeObject<string>(await res.Content.ReadAsStringAsync());
-            }
-
-            return null;
+            return $"{ConfigurationManager.AppSettings["WebsiteBase"]}/match/{matchid}";
         }
 
         public async Task<bool> UploadReplayForGame(string replayFile, long gameId, long summonerId)
