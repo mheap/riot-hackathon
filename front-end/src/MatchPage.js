@@ -43,7 +43,6 @@ export default class MatchPage extends Component {
 
     render() {
         let champion = this.state.champion;
-        let text = 'Loading...'
 
         if (!this.state || !this.state.champion) {
             return (
