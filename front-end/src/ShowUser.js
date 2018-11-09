@@ -90,5 +90,3 @@ export default class ShowUser extends Component {
         )
     }
 }
-
-
