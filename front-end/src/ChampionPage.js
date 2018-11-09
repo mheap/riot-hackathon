@@ -3,7 +3,20 @@ import {profileImage} from './champion';
 
 export default class ChampionPage extends Component {
 
+    state = {
+        "matches": []
+    }
+
+    componentDidMount() {
+        this.setState({
+            matches: [
+                {"summoner":"pseudonym117", "match_id": 1234}
+            ]
+        });
+    }
+
     render() {
+
       return (
         <div>
           <a href="/">
@@ -29,84 +42,28 @@ export default class ChampionPage extends Component {
             </div>
             <div className="championpagebottom">
               <table className="championGames">
+                <thead>
                 <tr className="championGame">
                   <th>World Ranking</th>
                   <th>Summoner Name</th>
                   <th>Match ID</th>
                   <th>KDA</th>
-                  <th>More Info</th>
+                  <th>Download Replay</th>
                 </tr>
-                <tr className="championGame">
-                  <td>World Ranking</td>
-                  <td>Summoner Name</td>
-                  <td>Match ID</td>
-                  <td>KDA</td>
-                  <td><button className="more-info-button">More Info</button></td>
-                </tr>
-                <tr className="championGame">
-                  <td>World Ranking</td>
-                  <td>Summoner Name</td>
-                  <td>Match ID</td>
-                  <td>KDA</td>
-                  <td><button className="more-info-button">More Info</button></td>
-                </tr>
-                <tr className="championGame">
-                  <td>World Ranking</td>
-                  <td>Summoner Name</td>
-                  <td>Match ID</td>
-                  <td>KDA</td>
-                  <td><button className="more-info-button">More Info</button></td>
-                </tr>
-                <tr className="championGame">
-                  <td>World Ranking</td>
-                  <td>Summoner Name</td>
-                  <td>Match ID</td>
-                  <td>KDA</td>
-                  <td><button className="more-info-button">More Info</button></td>
-                </tr>
-                <tr className="championGame">
-                  <td>World Ranking</td>
-                  <td>Summoner Name</td>
-                  <td>Match ID</td>
-                  <td>KDA</td>
-                  <td><button className="more-info-button">More Info</button></td>
-                </tr>
-                <tr className="championGame">
-                  <td>World Ranking</td>
-                  <td>Summoner Name</td>
-                  <td>Match ID</td>
-                  <td>KDA</td>
-                  <td><button className="more-info-button">More Info</button></td>
-                </tr>
-                <tr className="championGame">
-                  <td>World Ranking</td>
-                  <td>Summoner Name</td>
-                  <td>Match ID</td>
-                  <td>KDA</td>
-                  <td><button className="more-info-button">More Info</button></td>
-                </tr>
-                <tr className="championGame">
-                  <td>World Ranking</td>
-                  <td>Summoner Name</td>
-                  <td>Match ID</td>
-                  <td>KDA</td>
-                  <td><button className="more-info-button">More Info</button></td>
-                </tr>
-                <tr className="championGame">
-                  <td>World Ranking</td>
-                  <td>Summoner Name</td>
-                  <td>Match ID</td>
-                  <td>KDA</td>
-                  <td><button className="more-info-button">More Info</button></td>
-                </tr>
-                <tr className="championGame">
-                  <td>World Ranking</td>
-                  <td>Summoner Name</td>
-                  <td>Match ID</td>
-                  <td>KDA</td>
-                  <td><button className="more-info-button">More Info</button></td>
-                </tr>
+                </thead>
+                <tbody>
+            {this.state.matches.map((match) => {
+                return (<tr className="championGame">
+                  <td>{match.ranking}</td>
+                  <td>{match.summoner}</td>
+                  <td>{match.match_id}</td>
+                  <td>{match.kda}</td>
+                  <td><a href={"roflmao://match-id/" + match.match_id} className="more-info-button">Download</a></td>
+                </tr>)
+            })}
+                </tbody>
               </table>
+
             </div>
 
           </div>

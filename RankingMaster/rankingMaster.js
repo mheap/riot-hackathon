@@ -86,13 +86,14 @@ app.get('/match', async (req, res) => {
 });
 
 app.get('/leaderboard/:champ_id', async (req, res) => {
+  // The champ names sent to this endpoint need to be properly capitalized,
+  // see the ddragon json payload to confirm
   try {
-    const leaderboardData = await matchStore.getLeaderboard(req.params.champ_id);
+    const leaderboardData = await matchStore.getLeaderboard(staticData.champions.data[req.params.champ_id].key);
     res.send(leaderboardData)
   } catch(e) {
     res.send({ message: 'Whoops! Something went wrong...', error: e })
   }
-
 });
 
 app.post('/evaluate', async (req, res) => {

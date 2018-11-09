@@ -6,6 +6,7 @@ import time
 import json
 from parse import process_rofl
 import sys
+import requests
 
 ALLOWED_EXTENSIONS = set(["rofl"])
 
@@ -32,6 +33,10 @@ def clean_data(raw_dict):
 
     new_dict['players'] = player_list
     return new_dict
+
+def add_to_leaderboard(matchid, sumName):
+    r = requests.get(url="http://ranking_master:3000/match/", params={'matchId':matchid, 'summonerName':sumName})
+    return r.status_code == requests.codes.ok
 
 @app.route("/exists/<string:matchid>", methods=["GET"])
 def check_uploaded(matchid):
@@ -63,9 +68,11 @@ def upload_file_web():
         # If the user provided a match ID, use that name
         if "match-id" in request.headers:
             matchid = request.headers["match-id"]
+            sumName = request.headers["player-name"]
             filepath = os.path.join(app.config["UPLOAD_FOLDER"], str(matchid) + ".rofl")
             if not os.path.isfile(filepath):
                 file.save(filepath)
+                add_to_leaderboard(matchid, sumName)
 
             basic_json = process_rofl(filepath)
         else:

@@ -15,7 +15,11 @@ namespace RUBClient
 
         public RUB()
         {
-            this._client = new HttpClient {BaseAddress = new Uri($"{ConfigurationManager.AppSettings["Server"]}")};
+            this._client = new HttpClient
+            {
+                BaseAddress = new Uri($"{ConfigurationManager.AppSettings["Server"]}"),
+                Timeout = new TimeSpan(0, 0, 30),
+            };
         }
 
         public string GetMatchUrl(long matchid)
