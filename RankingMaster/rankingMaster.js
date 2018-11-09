@@ -51,12 +51,30 @@ app.get('/match', async (req, res) => {
     }
 
     const gameData = await matchStore.getMatch(req.query.matchId);
-    let sanitizedData = {};
+    let sanitizedData = { totalGameKills: 0, totalGameDamage: 0, gameDuration: gameData.gameDuration, rawGameScore: {} };
 
     sanitizedData.userIdentity = gameData.participantIdentities.filter(_pId => _pId.player[0].summonerName == req.query.summonerName && _pId.player);
     sanitizedData.userParticipant = gameData.participants.filter(_p => sanitizedData.userIdentity[0].participantId === _p.participantId && _p)
     sanitizedData.champData = riotApiHelper.findChamp(sanitizedData, staticData.champions);
     sanitizedData.userItems = riotApiHelper.mapItems(sanitizedData, staticData.items);
+
+    gameData.participants.forEach(player => {
+      if (player.teamId === sanitizedData.userParticipant[0].teamId) {
+        sanitizedData.totalGameKills += player.stats.kills;
+        sanitizedData.totalGameDamage += player.stats.totalDamageDealtToChampions;
+      }
+    });
+
+    const user = sanitizedData.userParticipant[0]
+
+    sanitizedData.rawGameScore.creepKillsPerMinute = user.stats.totalMinionsKilled / sanitizedData.gameDuration;
+    sanitizedData.rawGameScore.kda = (user.stats.kills + user.stats.assists) / user.stats.deaths;
+    sanitizedData.rawGameScore.visionScore = user.stats.visionScore;
+    sanitizedData.rawGameScore.csLaneDiff = user.timeline.csDiffPerMinDeltas["0-10"] + user.timeline.csDiffPerMinDeltas["10-20"];
+    sanitizedData.rawGameScore.damagePerGold = user.stats.totalDamageDealtToChampions / user.stats.goldEarned;
+    sanitizedData.rawGameScore.damagePerDeath = user.stats.totalDamageDealtToChampions / user.stats.deaths;
+    sanitizedData.rawGameScore.teamDamagePercentage =  user.stats.totalDamageDealtToChampions / sanitizedData.totalGameDamage;
+    sanitizedData.rawGameScore.killParticipation = user.stats.kills / sanitizedData.totalGameKills;
 
     res.send(sanitizedData);
   } catch(e) {
@@ -81,6 +99,11 @@ app.post('/evaluate', async (req, res) => {
   rs.send('90001');
   // matchStore.setLeaderboard(req.params.player, req.params.matchId, req.params.championId);
 });
+
+app.get('/seed', (req, res) => {
+  matchStore.startSeed()
+  res.send('ok')
+})
 
 
 app.listen(3000, '0.0.0.0', async () => {

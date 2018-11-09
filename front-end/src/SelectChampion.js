@@ -14,7 +14,7 @@ export default class SelectChampion extends Component {
     constructor(props) {
       super(props);
         this.state = {
-          uploadText: 'Drop your replay here, ' + this.state.summonerName
+          uploadText: 'Drop Your Replay Here, ' + this.state.summonerName + '<br /><br /><div id="info_text">(<a href="/me">Or view your recent games</a>)</div>'
         };
     }
 
@@ -34,7 +34,7 @@ export default class SelectChampion extends Component {
 
         req.then((data) => {
             this.setState({
-                "uploadText": `<a href="/match/${data.body.matchId}">Match ${data.body.matchId} uploaded</a>`
+                "uploadText": `<a href="/match/${data.body.matchId}">Click Here to view match ${data.body.matchId}</a>`
             });
         }).catch(console.log);
     }
@@ -48,9 +48,9 @@ export default class SelectChampion extends Component {
             <p className="shadow text2">ROFLMAO</p>
           </div>
           <div className="upload-button">
-          <ReactDropzone disableClick onDrop={this.onDrop}>
-          <p dangerouslySetInnerHTML={{__html: this.state.uploadText}} />
-          </ReactDropzone>
+            <ReactDropzone disableClick className="dropzone" onDrop={this.onDrop}>
+              <p dangerouslySetInnerHTML={{__html: this.state.uploadText}} />
+            </ReactDropzone>
           </div>
           <HexGrid width={1200} height={1250}>
 

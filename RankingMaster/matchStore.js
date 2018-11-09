@@ -107,6 +107,7 @@ const participantTimelineSchema = new mongoose.Schema({
 });
 const participantSchema = new mongoose.Schema({
     stats: participantStatsSchema,
+    teamId: Number,
     participantId: Number,
     timeline: participantTimelineSchema,
     championId: Number
@@ -118,6 +119,7 @@ const matchSchema = new mongoose.Schema({
     participantIdentities: [participantIdSchema],
     participants: [participantSchema],
     platformId: String,
+    gameDuration: Number,
 });
 const playerStatsSchema = new mongoose.Schema({
     internalRanking: Number,
@@ -167,23 +169,25 @@ const init = async () => {
     console.log('connected!');
 }
 
+const getMatch = async (matchId) => {
+    await init();
+    let match = await Match.findOne({gameId: matchId});
+
+    if (match) {
+        return match.toJSON();
+    }
+
+    console.log("Cache miss!");
+    match = await kayn.Match.get(matchId);
+
+    const matchDto = new Match(match);
+    await matchDto.save();
+
+    return matchDto.toJSON();
+}
+
 module.exports = {
-    getMatch: async (matchId) => {
-        await init();
-        let match = await Match.findOne({gameId: matchId});
-
-        if (match) {
-            return match.toJSON();
-        }
-
-        console.log("Cache miss!");
-        match = await kayn.Match.get(matchId);
-
-        const matchDto = new Match(match);
-        await matchDto.save();
-
-        return matchDto.toJSON();
-    },
+    getMatch: getMatch,
 
     getLeaderboard: async (championId) => {
         await init();
@@ -198,5 +202,87 @@ module.exports = {
         await playerStats.save();
 
         return playerStats.toJSON();
+    },
+
+    startSeed: async () => {
+        let summoners = [
+            "Derpthemeus",
+            "rithms",
+            "RndmInternetMan",
+            "FatalElement",
+            "TheMenEgg",
+            "Earleking",
+            "Vexrax",
+            "PHP DEV BTW",
+            "the gozaq",
+            "Shoco",
+            "aznchipmunk",
+            "littleTinglan",
+            "pseudonym117",
+            "Kalturi",
+            "WxWatch",
+            "golang",
+            "olysia",
+            "Seep",
+            "Before Sunrise",
+            "Lord Imrhial",
+            "OXStormthunder",
+            "Tessticles",
+            "idunnololz",
+            "ImaAsheHole",
+            "Ruer",
+            "pwnallol",
+            "koreanberry",
+            "fine ill support",
+            "natsy",
+            "Felicious",
+            "Scub3d",
+            "chopov",
+            "iamtreelynna",
+            "Etirps",
+            "Shiden",
+            "TheNextFaker",
+            "Riot Tuxedo",
+            "Riot Git Gene",
+            "Tuxedo",
+            "Riot Schmick",
+            "Riot Adobo",
+        ]
+
+        for (let i = 0; i < summoners.length; i++) {
+            const summonerName = summoners[i]
+            console.log(`loading matches for ${summonerName}...`)
+            try {
+                const summoner = await kayn.Summoner.by.name(summonerName)
+
+                const matchlist = await kayn.Matchlist.by.accountID(summoner.accountId)
+
+                for (let j = 0; j < matchlist.matches.length; j++) {
+                    const match = matchlist.matches[j]
+                    console.log(`loading match ${match.gameId}`)
+
+                    try {
+                        const matchDto = await getMatch(match.gameId)
+
+                        const rioters = matchDto.participantIdentities
+                            .map(p => p.player[0])
+                            .filter(p => p.summonerName.toLowerCase().includes('riot'))
+                        
+                        for (let k = 0; k < rioters.length; k++)    {
+                            if (!summoners.includes(rioters[k].summonerName)) {
+                                console.log(`Found rioter ${rioters[k].summonerName}!`)
+                                summoners.push(rioters[k].summonerName)
+                            }
+                        }
+                    } catch(e) {
+                        console.log(`error! ${e}`)
+                    }
+                }
+            } catch(e) {
+                console.log(`error! ${e}`)
+            }
+        }
+
+        console.log('finished seeding!')
     }
 };
