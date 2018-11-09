@@ -20,7 +20,7 @@
             Grid.ColumnSpan="2"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Text="Would you like to view the leaderboards?"/>
+            Text="Would you like to upload your replay through RUB?"/>
         <Button
             Grid.Row="1"
             Margin="10"

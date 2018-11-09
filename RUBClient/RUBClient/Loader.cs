@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using LcuApi;
 using Newtonsoft.Json;
-using RUBClient.Properties;
 
 namespace RUBClient
 {
@@ -18,7 +19,21 @@ namespace RUBClient
         {
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true;
 
-            AsyncMain(args).Wait();
+            if (args.Length == 1)
+            {
+                AsyncPlay(args).Wait();
+                Environment.Exit(1);
+            }
+            else if (args.Length > 1)
+            {
+                var collectArg = args.SkipWhile(arg => arg != "--collect").Skip(1).Take(1).First();
+
+                CollectMainAsync(collectArg).Wait();
+            }
+            else
+            {
+                AsyncMain(args).Wait();
+            }
         }
 
         private static readonly object _dispatcherLock = new object();
@@ -58,6 +73,21 @@ namespace RUBClient
             }
         }
 
+        public static async Task AsyncPlay(string[] args)
+        {
+            //var client = await Client.Connect();
+            var viewer = new ReplayPlayer(args[0]);
+            //var downpath = await client.Replays.GetRoflsPath();
+
+            var downloaded = await viewer.DownloadReplay(); //FINISH REPLAYS
+            if (downloaded)
+            {
+                //client.Replays.WatchMatchReplay((long)viewer.matchId);
+                Console.WriteLine(viewer.matchId);
+                await viewer.StartReplay();
+            }
+        }
+
         public static async Task AsyncMain(string[] args)
         {
             try
@@ -78,24 +108,33 @@ namespace RUBClient
 
                         var stats = await client.EndOfGame.GetEndOfGameStats();
 
-                        using (var uploadClient = new HttpClient())
+                        using (var rubClient = new RUB())
                         {
-                            var res = await uploadClient.PostAsync(
-                                $"{Settings.Default["Server"]}{Settings.Default["UploadUrl"]}",
-                                new StringContent(
-                                    JsonConvert.SerializeObject(stats),
-                                    Encoding.UTF8,
-                                    "application/json")
-                            );
+                            var redirectLocation = await rubClient.GetMatchUrl(stats);
 
                             if (await PromptForView())
                             {
-                                if (res.StatusCode == HttpStatusCode.RedirectMethod)
+                                if (!await rubClient.ReplayExists(stats.GameId))
                                 {
-                                    var location = res.Headers.Location;
+                                    if (!await client.Replays.DownloadMatchReplay(stats.GameId))
+                                    {
+                                        continue;
+                                    }
 
-                                    Process.Start(location.ToString());
+                                    var replayFile = $"{await client.Replays.GetRoflsPath()}/NA1-{stats.GameId}.rofl";
+
+                                    while (!File.Exists(replayFile))
+                                    {
+                                        await Task.Delay(50);
+                                    }
+
+                                    if (!await rubClient.UploadReplayForGame(replayFile, stats.GameId, stats.SummonerId))
+                                    {
+                                        continue;
+                                    }
                                 }
+
+                                Process.Start(redirectLocation);
                             }
                         }
                     }
@@ -107,6 +146,51 @@ namespace RUBClient
             {
                 Console.WriteLine(e);
                 throw;
+            }
+        }
+
+        private class ChampStats
+        {
+            public int ChampionId { get; set; }
+            public List<CareerStats.ChampionQueueStatsDto> StatsPerPosition { get; set; }
+        }
+
+        public static async Task CollectMainAsync(string arg)
+        {
+            var championIds = await StaticData.GetChampionIds();
+            var client = await Client.Connect();
+
+            var allStats = new List<ChampStats>();
+
+            foreach (var championId in championIds)
+            {
+                var champStats = new ChampStats
+                {
+                    ChampionId = championId,
+                    StatsPerPosition = new List<CareerStats.ChampionQueueStatsDto>(),
+                };
+
+                foreach (Position position in Enum.GetValues(typeof(Position)))
+                {
+                    var stats = await client.CareerStats.GetChampionAverage(
+                        championId, 
+                        position, 
+                        Tier.ALL,
+                        Queue.rank5solo);
+
+                    champStats.StatsPerPosition.Add(stats);
+                }
+
+                allStats.Add(champStats);
+            }
+
+            using(var outFile = File.OpenWrite(arg))
+            {
+                using (var writer = new StreamWriter(outFile, Encoding.UTF8))
+                {
+                    var serializeObject = JsonConvert.SerializeObject(allStats, Formatting.Indented);
+                    await writer.WriteAsync(serializeObject);
+                }
             }
         }
 

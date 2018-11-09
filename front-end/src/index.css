@@ -2,8 +2,11 @@ body {
   margin: 0;
   padding: 1em;
   font-family: sans-serif;
-  background: #62727b;
-  background-image: url("https://images.wallpaperscraft.com/image/dota_2_art_background_clean_95130_1920x1080.jpg");
+  background: url(./background.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 [draggable] {
@@ -51,6 +54,79 @@ svg g text  {
   padding-bottom: 5%;
 }
 
+.championpagecontainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.championpageleft {
+  width: 60%;
+  height: 100%;
+}
+
+.championpageright {
+  height: 100%;
+  margin-bottom: 50%;
+}
+
+.championTitle {
+  padding-bottom: 5%;
+}
+
+.championGames {
+
+}
+
+.championGame {
+
+}
+
+.championImage {
+  height: 200px;
+  width: 200px;
+}
+
+.back-arrow {
+  margin-left: 50px;
+  margin-top: 25px;
+  margin-bottom: 0;
+  height: 80px;
+  width: 120px;
+}
+
+table {
+    background: url("https://wallpapercave.com/wp/Vqjr2iR.jpg");
+    border-collapse:separate;
+    border:solid black 3px;
+    border-radius:8px;
+    -moz-border-radius:6px;
+    width: 100%;
+    border-spacing: 5px;
+    margin-bottom: 5%;
+}
+
+td, th {
+    border-left:solid black 1px;
+    border-top:solid black 1px;
+    padding: 15px;
+}
+
+th {
+    border-top: none;
+    text-align: center;
+}
+
+td {
+  text-align: center;
+}
+
+td:first-child, th:first-child {
+     border-left: none;
+}
+
 /*Title Styling*/
 @import url(https://fonts.googleapis.com/css?family=Arvo:700);
 @import url(https://fonts.googleapis.com/css?family=Seaweed+Script);
@@ -60,6 +136,7 @@ svg g text  {
   display: flex-block;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .shadow {
@@ -83,20 +160,23 @@ svg g text  {
   margin:0;
   text-align: center;
 }
+
 .script {
   font-family: "Seaweed Script";
   color: #fff;
   text-align: center;
-  font-size: 40px;
+  font-size: 80px;
   position: relative;
   margin:0;
 }
+
 .script span {
   background-color: #222;
   padding: 0 0.3em;
 }
+
 .script:before {
-  content:"";
+  content: "";
   display: block;
   position: absolute;
   z-index:-1;
@@ -104,15 +184,36 @@ svg g text  {
   width: 100%;
   border-bottom: 3px solid #fff;
 }
+
 .text1 {
   font-size: 60px;
   width: 100%;
 }
+
 .text2 {
   font-size: 169px;
   width: 100%;
 }
+
 .text3 {
   font-size: 100px;
   width: 100%;
+}
+
+/*Button Styles*/
+.more-info-button {
+  color: #fff !important;
+  text-transform: uppercase;
+  background: #003366;
+  padding: 20px;
+  border-radius: 50px;
+  display: inline-block;
+  border: none;
+}
+
+.more-info-button:hover {
+  text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  transition: all 0.4s ease 0s;
 }

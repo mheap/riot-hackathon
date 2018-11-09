@@ -1,4 +1,5 @@
 from flask import Flask, flash, request, redirect, url_for, send_from_directory
+from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
 import time
@@ -9,6 +10,7 @@ import sys
 ALLOWED_EXTENSIONS = set(["rofl"])
 
 app = Flask(__name__)
+CORS(app)
 app.config["UPLOAD_FOLDER"] = "./uploads"
 app.secret_key = "super secret key"
 

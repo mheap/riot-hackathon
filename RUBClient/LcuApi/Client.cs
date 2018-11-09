@@ -123,6 +123,8 @@ namespace LcuApi
         private readonly ClientWebSocket _socket;
         private Login _login;
         private EndOfGame _endOfGame;
+        private Replays _replays;
+        private CareerStats _careerStats;
 
         private Client(HttpClient client, ClientWebSocket socket)
         {
@@ -130,9 +132,11 @@ namespace LcuApi
             this._socket = socket;
         }
 
+        public CareerStats CareerStats => _careerStats ?? (_careerStats = new CareerStats(this._httpClient));
         public Gameflow Gameflow => _gameflow ?? (_gameflow = new Gameflow(this._httpClient));
         public Login Login => _login ?? (_login = new Login(this._httpClient));
         public EndOfGame EndOfGame => _endOfGame ?? (_endOfGame = new EndOfGame(this._httpClient));
+        public Replays Replays => _replays ?? (_replays = new Replays(this._httpClient));
 
         public async Task<bool> GetSwagger()
         {
