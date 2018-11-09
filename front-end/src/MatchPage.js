@@ -3,13 +3,10 @@ import request from "superagent";
 
 export default class MatchPage extends Component {
 
-    constructor(props) {
-      super(props);
-    }
-
     componentDidMount() {
+        console.log(this.props);
         // Load information
-        const url = 'http://localhost:3000/match?matchId='+this.props.match.params.match_id+'&summonerName=' + this.props.summonerName;
+        const url = 'http://localhost:3000/match?matchId='+this.props.match.params.match_id+'&summonerName=pseudonym117';
         const res = request.get(url);
 
         res.then((data) => {

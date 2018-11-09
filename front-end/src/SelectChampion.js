@@ -10,10 +10,14 @@ import 'react-table/react-table.css';
 
 export default class SelectChampion extends Component {
 
+    state = {
+        summonerName: this.props.summonerName
+    }
+
     constructor(props) {
       super(props);
         this.state = {
-          uploadText: 'Drop your replay here'
+          uploadText: 'Drop your replay here, ' + this.state.summonerName
         };
     }
 
