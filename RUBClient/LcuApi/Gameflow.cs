@@ -34,7 +34,8 @@ namespace LcuApi
 
             if (!Enum.TryParse(JsonConvert.DeserializeObject<string>(gameflowStr), out GameflowState state))
             {
-                throw new InvalidDataException();
+                //throw new InvalidDataException();
+                return GameflowState.None;
             }
 
             return state;

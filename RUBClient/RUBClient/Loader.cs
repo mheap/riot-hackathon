@@ -32,7 +32,7 @@ namespace RUBClient
             }
             else
             {
-                AsyncMain(args).Wait();
+                AsyncMain(args).Wait(CancellationToken.None);
             }
         }
 
@@ -110,7 +110,7 @@ namespace RUBClient
 
                         using (var rubClient = new RUB())
                         {
-                            var redirectLocation = await rubClient.GetMatchUrl(stats);
+                            //var redirectLocation = await rubClient.GetMatchUrl(stats);
 
                             if (await PromptForView())
                             {
@@ -134,7 +134,7 @@ namespace RUBClient
                                     }
                                 }
 
-                                Process.Start(redirectLocation);
+                                Process.Start(rubClient.GetMatchUrl(stats.GameId));
                             }
                         }
                     }
