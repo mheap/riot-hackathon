@@ -51,6 +51,7 @@ app.get('/match', async (req, res) => {
     }
 
     const gameData = await matchStore.getMatch(req.query.matchId);
+      console.log(gameData);
     let sanitizedData = {};
 
     sanitizedData.userIdentity = gameData.participantIdentities.filter(_pId => _pId.player[0].summonerName == req.query.summonerName && _pId.player);
@@ -58,7 +59,6 @@ app.get('/match', async (req, res) => {
     sanitizedData.champData = riotApiHelper.findChamp(sanitizedData, staticData.champions);
     sanitizedData.userItems = riotApiHelper.mapItems(sanitizedData, staticData.items);
 
-    console.log(sanitizedData)
     res.send(sanitizedData);
   } catch(e) {
     console.log(e)
