@@ -5,6 +5,8 @@ import os
 import time
 import json
 from parse import process_rofl
+import sys
+import requests
 
 ALLOWED_EXTENSIONS = set(["rofl"])
 
@@ -32,11 +34,29 @@ def clean_data(raw_dict):
     new_dict['players'] = player_list
     return new_dict
 
+def add_to_leaderboard(matchid, sumName):
+    r = requests.get(url="http://ranking_master:3000/match/", params={'matchId':matchid, 'summonerName':sumName})
+    return r.status_code == requests.codes.ok
+
+@app.route("/exists/<string:matchid>", methods=["GET"])
+def check_uploaded(matchid):
+    filepath = os.path.join(app.config["UPLOAD_FOLDER"], matchid + ".rofl")
+    if os.path.isfile(filepath):
+        return app.response_class(
+            response="", status=200, mimetype="application/json"
+        )
+    else:
+        return app.response_class(
+            response="", status=404, mimetype="application/json"
+        )
+
 @app.route("/upload", methods=["POST"])
 @app.route("/web_upload", methods=["POST"])
 def upload_file_web():
     # check if the post request has the file part
     if "file" not in request.files:
+        sys.stderr.write(str(len(request.files)) + '\n')
+        #print(len(request.files), file=sys.stdout)
         return error("No file provided in the 'file' key")
     file = request.files["file"]
     # if user does not select file, browser also
@@ -48,9 +68,11 @@ def upload_file_web():
         # If the user provided a match ID, use that name
         if "match-id" in request.headers:
             matchid = request.headers["match-id"]
+            sumName = request.headers["player-name"]
             filepath = os.path.join(app.config["UPLOAD_FOLDER"], str(matchid) + ".rofl")
             if not os.path.isfile(filepath):
                 file.save(filepath)
+                add_to_leaderboard(matchid, sumName)
 
             basic_json = process_rofl(filepath)
         else:
@@ -73,6 +95,7 @@ def upload_file_web():
                 os.rename(tempfilepath, filepath)
             else:
                 os.remove(tempfilepath)
+        #TODO DEAL WITH SUMMONER ID
 
         return app.response_class(
             response=json.dumps(clean_data(json.loads(str(basic_json)))), status=200, mimetype="application/json"
@@ -89,7 +112,6 @@ def download_file(matchid):
             as_attachment=True,
         )
     return error("File not found: " + matchid)
-
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")

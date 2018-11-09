@@ -7,9 +7,15 @@ import {champions, profileImage} from './champion';
 
 export default class SelectChampion extends Component {
 
+    state = {
+        summonerName: localStorage.getItem("summonerName")
+    }
+
     constructor(props) {
       super(props);
-      this.uploadText = 'Drop Your Replay Here'
+        this.state = {
+          uploadText: 'Drop Your Replay Here, ' + this.state.summonerName + '<br /><br /><div id="info_text">(<a href="/me">Or view your recent games</a>)</div>'
+        };
     }
 
     onDrop = (files) => {
@@ -27,8 +33,8 @@ export default class SelectChampion extends Component {
         });
 
         req.then((data) => {
-            this.setState((state, props) => {
-                this.uploadText = `<a href="/match/${data.body.matchId}">Match ${data.body.matchId} uploaded</a>`;
+            this.setState({
+                "uploadText": `<a href="/match/${data.body.matchId}">Click Here to view match ${data.body.matchId}</a>`
             });
         }).catch(console.log);
     }
@@ -39,12 +45,11 @@ export default class SelectChampion extends Component {
       return (
         <div className="App">
           <div className="plate">
-            <p className="shadow text1">UPLOAD</p>
-            <p className="shadow text2">ROFL</p>
+            <p className="shadow text2">ROFLMAO</p>
           </div>
           <div className="upload-button">
-            <ReactDropzone disableClick onDrop={this.onDrop}>
-              <p dangerouslySetInnerHTML={{__html: this.uploadText}} />
+            <ReactDropzone disableClick className="dropzone" onDrop={this.onDrop}>
+              <p dangerouslySetInnerHTML={{__html: this.state.uploadText}} />
             </ReactDropzone>
           </div>
           <HexGrid width={1200} height={1250}>
