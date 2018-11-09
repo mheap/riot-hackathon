@@ -170,7 +170,7 @@ const init = async () => {
 module.exports = {
     getMatch: async (matchId) => {
         await init();
-        let match = await Match.findOne({getMatchId: matchId});
+        let match = await Match.findOne({gameId: matchId});
 
         if (match) {
             return match.toJSON();
