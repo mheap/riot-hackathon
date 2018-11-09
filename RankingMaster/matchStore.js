@@ -107,6 +107,7 @@ const participantTimelineSchema = new mongoose.Schema({
 });
 const participantSchema = new mongoose.Schema({
     stats: participantStatsSchema,
+    teamId: Number,
     participantId: Number,
     timeline: participantTimelineSchema,
     championId: Number
@@ -118,6 +119,7 @@ const matchSchema = new mongoose.Schema({
     participantIdentities: [participantIdSchema],
     participants: [participantSchema],
     platformId: String,
+    gameDuration: Number,
 });
 const playerStatsSchema = new mongoose.Schema({
     internalRanking: Number,
