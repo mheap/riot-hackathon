@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import SelectChampion from './SelectChampion';
 import ChampionPage from './ChampionPage';
 import MatchPage from './MatchPage';
+import ShowUser from './ShowUser';
 import SummonerName from './SummonerName';
 import './index.css';
 
@@ -19,6 +20,7 @@ class PrimaryLayout extends Component {
             <main>
             <Route path="/" exact component={SummonerName} />
             <Route path="/choose" component={SelectChampion} />
+            <Route path="/me" component={ShowUser} />
             <Route path="/:champion/leaderboard" component={ChampionPage} />
             <Route path="/match/:match_id" component={MatchPage} />
             </main>
