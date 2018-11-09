@@ -183,6 +183,8 @@ const getMatch = async (matchId) => {
     const matchDto = new Match(match);
     await matchDto.save();
 
+    console.log('match', match)
+
     return matchDto.toJSON();
 }
 
@@ -267,7 +269,7 @@ module.exports = {
                         const rioters = matchDto.participantIdentities
                             .map(p => p.player[0])
                             .filter(p => p.summonerName.toLowerCase().includes('riot'))
-                        
+
                         for (let k = 0; k < rioters.length; k++)    {
                             if (!summoners.includes(rioters[k].summonerName)) {
                                 console.log(`Found rioter ${rioters[k].summonerName}!`)

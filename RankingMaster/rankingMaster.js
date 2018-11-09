@@ -20,6 +20,10 @@ const baseRequest = axios.create({
   }
 });
 
+function createRankRecord() {
+
+};
+
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, X-Riot-Token');
@@ -58,6 +62,7 @@ app.get('/match', async (req, res) => {
     sanitizedData.champData = riotApiHelper.findChamp(sanitizedData, staticData.champions);
     sanitizedData.userItems = riotApiHelper.mapItems(sanitizedData, staticData.items);
 
+
     gameData.participants.forEach(player => {
       if (player.teamId === sanitizedData.userParticipant[0].teamId) {
         sanitizedData.totalGameKills += player.stats.kills;
@@ -65,16 +70,22 @@ app.get('/match', async (req, res) => {
       }
     });
 
-    const user = sanitizedData.userParticipant[0]
+    const user = sanitizedData.userParticipant[0];
+    const rawScore = sanitizedData.rawGameScore;
 
-    sanitizedData.rawGameScore.creepKillsPerMinute = user.stats.totalMinionsKilled / sanitizedData.gameDuration;
-    sanitizedData.rawGameScore.kda = (user.stats.kills + user.stats.assists) / user.stats.deaths;
-    sanitizedData.rawGameScore.visionScore = user.stats.visionScore;
-    sanitizedData.rawGameScore.csLaneDiff = user.timeline.csDiffPerMinDeltas["0-10"] + user.timeline.csDiffPerMinDeltas["10-20"];
-    sanitizedData.rawGameScore.damagePerGold = user.stats.totalDamageDealtToChampions / user.stats.goldEarned;
-    sanitizedData.rawGameScore.damagePerDeath = user.stats.totalDamageDealtToChampions / user.stats.deaths;
-    sanitizedData.rawGameScore.teamDamagePercentage =  user.stats.totalDamageDealtToChampions / sanitizedData.totalGameDamage;
-    sanitizedData.rawGameScore.killParticipation = user.stats.kills / sanitizedData.totalGameKills;
+    rawScore.CsPerMinute = user.stats.totalMinionsKilled / sanitizedData.gameDuration;
+    console.log('gameData', gameData)
+    rawScore.Kda = (user.stats.kills + user.stats.assists) / user.stats.deaths;
+    rawScore.VisionScorePerHour = user.stats.visionScore;
+    rawScore.CsDiffAtLaningEnd = user.timeline.csDiffPerMinDeltas["0-10"] + user.timeline.csDiffPerMinDeltas["10-20"];
+    rawScore.DamagePerGold = user.stats.totalDamageDealtToChampions / user.stats.goldEarned;
+    rawScore.DamagePerDeath = user.stats.totalDamageDealtToChampions / user.stats.deaths;
+    rawScore.teamDamagePercentage =  user.stats.totalDamageDealtToChampions / sanitizedData.totalGameDamage;
+    rawScore.KillParticipation = user.stats.kills / sanitizedData.totalGameKills;
+
+    const rank = riotApiHelper.rankStats(rawScore, sanitizedData.userParticipant[0].championId);
+
+    console.log('rank', rank)
 
     res.send(sanitizedData);
   } catch(e) {
