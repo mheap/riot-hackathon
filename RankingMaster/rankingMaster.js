@@ -44,6 +44,12 @@ app.get('/match', async (req, res) => {
       return
     }
 
+    if (!req.query.summonerName) {
+      res.status(400)
+      res.send('missing summonerName!')
+      return
+    }
+
     const gameData = await matchStore.getMatch(req.query.matchId);
     let sanitizedData = { totalGameKills: 0, totalGameDamage: 0, gameDuration: gameData.gameDuration, rawGameScore: {} };
 

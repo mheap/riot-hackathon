@@ -57,55 +57,48 @@ svg g text  {
 .championpagecontainer {
   height: 100%;
   width: 100%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+
 }
 
-.championpageleft {
-  width: 60%;
-  height: 100%;
+.championpagetop {
+  width: 100%;
+  height: 30%;
 }
 
-.championpageright {
-  height: 100%;
-  margin-bottom: 50%;
+.championpagebottom {
+  width: 100%;
+  height: 70%;
 }
 
 .championTitle {
-  padding-bottom: 5%;
-}
-
-.championGames {
-
-}
-
-.championGame {
-
+  width: 80%;
+  height: 170px;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
 .championImage {
-  height: 200px;
-  width: 200px;
-}
-
-.back-arrow {
-  margin-left: 50px;
-  margin-top: 25px;
-  margin-bottom: 0;
-  height: 80px;
-  width: 120px;
+  height: 175px;
+  width: 175px;
+  border: solid grey 5px;
+  border-radius: 20px;
+  margin-left: 70%;
+  display: block;
 }
 
 table {
-    background: url("https://wallpapercave.com/wp/Vqjr2iR.jpg");
+    background: rgba(0,0,0, 0.6);
+    background-size: cover;
     border-collapse:separate;
-    border:solid black 3px;
+    border:solid black 5px;
     border-radius:8px;
     -moz-border-radius:6px;
-    width: 100%;
+    width: 90%;
     border-spacing: 5px;
     margin-bottom: 5%;
+    color: white;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 td, th {
@@ -162,12 +155,10 @@ td:first-child, th:first-child {
 }
 
 .script {
-  font-family: "Seaweed Script";
-  color: #fff;
-  text-align: center;
-  font-size: 80px;
-  position: relative;
-  margin:0;
+    font-family: "Seaweed Script";
+    color: #fff;
+    font-size: 80px;
+    position: relative;
 }
 
 .script span {
@@ -204,7 +195,7 @@ td:first-child, th:first-child {
 .more-info-button {
   color: #fff !important;
   text-transform: uppercase;
-  background: #003366;
+  background: #D4AF37;
   padding: 20px;
   border-radius: 50px;
   display: inline-block;
@@ -216,4 +207,53 @@ td:first-child, th:first-child {
   -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
   -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
   transition: all 0.4s ease 0s;
+}
+
+#arrowAnim {
+  margin-left: 150px;
+  margin-top: 25px;
+  margin-bottom: 40px;
+  height: 10px;
+  width: 15px;
+}
+
+.arrow {
+  border: 1vw solid;
+  border-color: white transparent transparent white;
+  transform: rotate(-45deg);
+}
+
+
+.arrowSliding {
+  position: absolute;
+  -webkit-animation: slide 4s linear infinite;
+          animation: slide 4s linear infinite;
+}
+
+.delay1 {
+  -webkit-animation-delay: 1s;
+    animation-delay: 1s;
+}
+
+.delay2 {
+  -webkit-animation-delay: 2s;
+    animation-delay: 2s;
+}
+
+.delay3 {
+  -webkit-animation-delay: 3s;
+    animation-delay: 3s;
+}
+
+@-webkit-keyframes slide {
+    0% { opacity:0; transform: translateX(5vw); }
+   20% { opacity:1; transform: translateX(2vw); }
+   80% { opacity:1; transform: translateX(-2vw); }
+  100% { opacity:0; transform: translateX(-5vw); }
+}
+@keyframes slide {
+    0% { opacity:0; transform: translateX(5vw); }
+   20% { opacity:1; transform: translateX(2vw); }
+   80% { opacity:1; transform: translateX(-2vw); }
+  100% { opacity:0; transform: translateX(-5vw); }
 }
