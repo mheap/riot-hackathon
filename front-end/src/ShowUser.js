@@ -36,7 +36,7 @@ export default class ShowUser extends Component {
                 {['Garen', 'Jinx', 'Illaoi', 'Shaco', 'Garen', 'Blitzcrank'].map((champion) => {
                 return (
                    <tr className="championGame">
-                    <td><img src={profileImage(champion)} /></td>
+                    <td><img alt="{champion}" src={profileImage(champion)} /></td>
                     <td>World Ranking</td>
                     <td>{champion}</td>
                     <td>Match ID</td>

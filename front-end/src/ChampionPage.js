@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import {champions, profileImage} from './champion';
+import {profileImage} from './champion';
 
 export default class ChampionPage extends Component {
-
-    constructor(props) {
-      super(props);
-    }
 
     render() {
       return (
@@ -28,7 +24,7 @@ export default class ChampionPage extends Component {
           </a>
           <div className="championpagecontainer">
             <div className="championpagetop">
-              <img className="championImage" src={profileImage(this.props.match.params.champion)} />
+              <img className="championImage" alt={this.props.match.params.champion} src={profileImage(this.props.match.params.champion)} />
               <div className="championTitle script">{this.props.match.params.champion}</div>
             </div>
             <div className="championpagebottom">
