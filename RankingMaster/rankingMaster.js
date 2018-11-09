@@ -92,8 +92,8 @@ app.get('/match', async (req, res) => {
       return
     }
 
-    const sanitizedData = await sanitizeMatchDataForSummoner(matchId)
-    const rank = await getRankForSummoner(sanitizedData, req.query.summonerName)
+    const sanitizedData = await sanitizeMatchDataForSummoner(matchId, req.query.summonerName)
+    const rank = await getRankForSummoner(sanitizedData)
 
     console.log('rank', rank)
     
