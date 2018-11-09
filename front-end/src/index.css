@@ -55,7 +55,6 @@ svg g text  {
 }
 
 .championpagecontainer {
-  margin: 5% auto;
   height: 100%;
   width: 100%;
   display: flex;
@@ -70,6 +69,7 @@ svg g text  {
 
 .championpageright {
   height: 100%;
+  margin-bottom: 50%;
 }
 
 .championTitle {
@@ -89,17 +89,23 @@ svg g text  {
   width: 200px;
 }
 
-table {
-  background: url("https://wallpapercave.com/wp/Vqjr2iR.jpg");
+.back-arrow {
+  margin-left: 50px;
+  margin-top: 25px;
+  margin-bottom: 0;
+  height: 80px;
+  width: 120px;
 }
 
 table {
+    background: url("https://wallpapercave.com/wp/Vqjr2iR.jpg");
     border-collapse:separate;
     border:solid black 3px;
     border-radius:8px;
     -moz-border-radius:6px;
     width: 100%;
     border-spacing: 5px;
+    margin-bottom: 5%;
 }
 
 td, th {
@@ -192,4 +198,22 @@ td:first-child, th:first-child {
 .text3 {
   font-size: 100px;
   width: 100%;
+}
+
+/*Button Styles*/
+.more-info-button {
+  color: #fff !important;
+  text-transform: uppercase;
+  background: #003366;
+  padding: 20px;
+  border-radius: 50px;
+  display: inline-block;
+  border: none;
+}
+
+.more-info-button:hover {
+  text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  transition: all 0.4s ease 0s;
 }
