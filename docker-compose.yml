@@ -25,3 +25,9 @@ services:
       - "mongo"
     links:
       - "mongo:database"
+  website:
+    build: front-end
+    ports:
+      - "80:4000"
+    depends_on:
+      - "ranking_master"
