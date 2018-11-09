@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CareerStats.cs" />
+    <Compile Include="StaticData.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="EndOfGame.cs" />
     <Compile Include="Gameflow.cs" />
