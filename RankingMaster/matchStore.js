@@ -263,7 +263,6 @@ module.exports = {
 
         await playerStats.save()
 
-<<<<<<< HEAD
         return playerStats.toJSON();
     },
 
@@ -281,9 +280,6 @@ module.exports = {
                 console.log(player)
             });
         }
-=======
-        return playerStats.toJSON()
->>>>>>> parent of d125ac5... add seed data for leaderboard
     },
 
     startSeed: async () => {
