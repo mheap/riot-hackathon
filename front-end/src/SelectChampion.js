@@ -8,7 +8,7 @@ import {champions, profileImage} from './champion';
 export default class SelectChampion extends Component {
 
     state = {
-        summonerName: this.props.summonerName
+        summonerName: localStorage.getItem("summonerName")
     }
 
     constructor(props) {

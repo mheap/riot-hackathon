@@ -9,27 +9,18 @@ import './index.css';
 
 class PrimaryLayout extends Component {
 
-    state = {
-        summonerName: null
-    }
-
-    changeSummonerName = (name) => {
-        this.setState({
-            "summonerName": name
-        });
-    }
-
     render() {
-        if (!this.state.summonerName) {
-            //return <Redirect to='/' />
+        if (window.location.pathname !== "/" && !localStorage.getItem("summonerName")){
+            return <Redirect to='/' />
         }
+
         return (
             <div className="primary-layout">
             <main>
-            <Route path="/" exact render={(props) => <SummonerName changeSummonerName={this.changeSummonerName} summonerName={this.state.summonerName} {...props} />} />
-            <Route path="/choose" render={(props) => <SelectChampion summonerName={this.state.summonerName} {...props} />} />} />
-            <Route path="/:champion/leaderboard" render={ChampionPage} />} />
-            <Route path="/match/:match_id" render={(props) => <MatchPage summonerName={this.state.summonerName} {...props} /> } />
+            <Route path="/" exact component={SummonerName} />
+            <Route path="/choose" component={SelectChampion} />
+            <Route path="/:champion/leaderboard" component={ChampionPage} />
+            <Route path="/match/:match_id" component={MatchPage} />
             </main>
             </div>
         )

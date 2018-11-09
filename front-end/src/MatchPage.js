@@ -6,7 +6,7 @@ export default class MatchPage extends Component {
     componentDidMount() {
         console.log(this.props);
         // Load information
-        const url = 'http://localhost:3000/match?matchId='+this.props.match.params.match_id+'&summonerName=pseudonym117';
+        const url = 'http://localhost:3000/match?matchId='+this.props.match.params.match_id+'&summonerName=' + localStorage.getItem("summonerName");
         const res = request.get(url);
 
         res.then((data) => {

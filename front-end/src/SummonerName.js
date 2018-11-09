@@ -14,14 +14,12 @@ export default class SummonerName extends Component {
     }
 
     onSubmit() {
-        this.props.changeSummonerName(
-            document.getElementById("summonerName").value
-        );
+        localStorage.setItem('summonerName', document.getElementById("summonerName").value);
         this.setState({"redirect": true});
     }
 
     render() {
-        if (this.props.summonerName) {
+        if (localStorage.getItem('summonerName')) {
             return <Redirect to='/choose' />
         }
 
