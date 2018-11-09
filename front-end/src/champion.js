@@ -18,7 +18,7 @@ function profileImage(name) {
   }
 
   if (name === 'Gene') {
-    return "https://pbs.twimg.com/profile_images/906295011574026240/p-4tjjQf_400x400.jpg";
+    return "https://i.imgur.com/ZAfmXoO.jpg";
   }
 
   // Remove disallowed characters

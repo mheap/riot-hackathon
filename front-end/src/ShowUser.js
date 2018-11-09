@@ -65,7 +65,6 @@ export default class ShowUser extends Component {
                   <th>Summoner Name</th>
                   <th>Match ID</th>
                   <th>KDA</th>
-                  <th>Download</th>
                 </tr>
             </thead>
             <tbody>
