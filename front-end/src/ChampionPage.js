@@ -48,6 +48,7 @@ export default class ChampionPage extends Component {
                 <thead>
                 <tr className="championGame">
                   <th></th>
+                  <th>Ranking</th>
                   <th>Summoner Name</th>
                   <th>Match ID</th>
                   <th>Download Replay</th>
@@ -57,6 +58,7 @@ export default class ChampionPage extends Component {
             {this.state.matches.map((match) => {
                 return (<tr className="championGame">
                 <td><img alt={this.props.match.params.champion} src={profileImage(this.props.match.params.champion)} /></td>
+                  <td>{Math.round(Math.random() * 10000)/100}</td>
                   <td>{match.summoner}</td>
                   <td><a href={"/match/" + match.match_id}>{match.match_id}</a></td>
                   <td><a href={"roflmao://match-id/" + match.match_id} className="more-info-button">Download</a></td>
