@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import request from "superagent";
-import {champions, profileImage} from './champion';
+import {profileImage} from './champion';
 
 export default class MatchPage extends Component {
 
@@ -28,7 +28,6 @@ export default class MatchPage extends Component {
 
     //}
     componentDidMount() {
-        console.log(this.props);
         // Load information
         const url = 'http://localhost:3000/match?matchId='+this.props.match.params.match_id+'&summonerName=' + localStorage.getItem("summonerName");
         const res = request.get(url);
@@ -37,14 +36,24 @@ export default class MatchPage extends Component {
             console.log(data.body);
             this.setState({
                 champion: data.body.champData,
-                stats: data.body.userParticipant[0].timeline
+                stats: data.body.rawGameScore,
+                raw: data.body.userParticipant[0].stats,
+                items: data.body.userItems
             });
         });
     }
 
     render() {
         let champion = this.state.champion;
+        let stats = this.state.stats;
+        let raw = this.state.raw;
+        let items = this.state.items;
 
+        if (!champion){
+            return null
+        }
+
+        console.log(items);
 
         return (
             <div>
@@ -74,8 +83,8 @@ export default class MatchPage extends Component {
                       <img className="matchpagechampimg" src="https://vignette.wikia.nocookie.net/leagueoflegends/images/6/66/Fat_Poro_Icon.png/revision/latest?cb=20150215130030" />
                     </div>
                     <div>
-                      <div className="shadow text1 matchsummonername">Summoner Name</div>
-                      <div>Rank "Number" "Champion Name" in "Region"</div>
+                      <div className="shadow text1 matchsummonername">{localStorage.getItem('summonerName')}</div>
+                      <div>Rank "Number" {champion.name} in "Region"</div>
                     </div>
                     <div>
                       <div>Match Date</div>
@@ -86,9 +95,19 @@ export default class MatchPage extends Component {
                     <button className="downloadbutton">WATCH REPLAY</button>
                   </div>
                   <div className="matchpageleftbox">
+                    <div>
+                    <h4>Items</h4>
+                    <ul>
+                    {items.map((item) => {
+                        if (!item) { return ""; }
+                        return <li>{item.name}</li>
+                    })}
+                    </ul>
+                    </div>
+
                     <div className="statbox">
-                      <div className="stat">KDA: </div>
-                      <div className="stat">Largest Killing Spree: </div>
+                      <div className="stat">KDA: {raw.kills}/{raw.deaths}/{raw.assists} ({Math.round(stats.kda*100)/100})</div>
+                      <div className="stat">Largest Killing Spree: {raw.largestKillingSpree}</div>
                       <div className="stat">Game Time: </div>
                       <div className="stat">Time Stamp: </div>
                     </div>
@@ -97,15 +116,19 @@ export default class MatchPage extends Component {
                       <div className="stat">Level: </div>
                       <div className="stat">CS: </div>
                       <div className="stat">Kill Participation: </div>
+
+                      <div className="stat">Damage Dealt: {raw.totalDamageDealt}</div>
+                      <div className="stat">Damage Taken: {raw.totalDamageTaken}</div>
+                      <div className="stat">Vision Score: {raw.visionScore}</div>
                     </div>
                   </div>
                 </div>
                 <div className="matchpageright">
                   <div className="championimagebox">
-                    <img className="matchpagechampimg" src="https://i.imgur.com/ghyDiLCl.jpg" />
+                    <img className="matchpagechampimg" src={profileImage(champion.name)} />
                   </div>
-                  <div className="championname">Champion Name</div>
-                  <div className="championdescription">Champion Description</div>
+                  <div className="championname">{champion.name}</div>
+                  <div className="championdescription">{champion.blurb}</div>
                 </div>
 
               </div>
