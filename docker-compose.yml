@@ -7,6 +7,8 @@ services:
       - ./RankingMaster/db:/data/db
     env_file:
       - ./RankingMaster.env
+    ports:
+      - "27017:27017"
   python_replay:
     build: ReplayService
     ports:

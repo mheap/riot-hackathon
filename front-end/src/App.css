@@ -101,3 +101,8 @@
     border-radius: 10px;
     height: 203px;
 }
+
+.demoText {
+    background: white;
+    padding: 5px 30px;
+}
