@@ -14,7 +14,6 @@ export default class MatchPage extends Component {
         const res = request.get(url);
 
         res.then((data) => {
-            console.log(data.body);
              this.setState({
                 champion: data.body.champData,
                 stats: data.body.rawGameScore,
@@ -25,7 +24,8 @@ export default class MatchPage extends Component {
                 csPerMinute: data.body.rawGameScore.creepKillsPerMinute,
                 matchId: this.props.match.params.match_id,
                 dmgPercentage: data.body.rawGameScore.teamDamagePercentage,
-                internalRanking: data.body.internalRanking
+                internalRanking: data.body.internalRanking,
+                sumIconID: data.body.userIdentity[0].player[0].profileIcon
             });
         });
     }
