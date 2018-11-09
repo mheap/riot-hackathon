@@ -15,17 +15,17 @@ export default class MatchPage extends Component {
 
         res.then((data) => {
             console.log(data.body);
-            this.setState({
-                champion: data.body.champ,
+             this.setState({
+                champion: data.body.champData,
                 stats: data.body.rawGameScore,
-                raw: data.body.myData,
-                items: [], //data.body.userItems,
-                gametime: data.body.match.gameDuration,
+                raw: data.body.userParticipant[0].stats,
+                items: data.body.userItems,
+                gametime: data.body.gameDuration,
                 killParticipation: data.body.rawGameScore.killParticipation,
                 csPerMinute: data.body.rawGameScore.creepKillsPerMinute,
                 matchId: this.props.match.params.match_id,
                 dmgPercentage: data.body.rawGameScore.teamDamagePercentage,
-                sumIconID: data.body.userIdentity[0].player[0].profileIcon
+                internalRanking: data.body.internalRanking
             });
         });
     }
@@ -77,7 +77,7 @@ export default class MatchPage extends Component {
                     </div>
                     <div>
                       <div className="shadow text1 matchsummonername">{localStorage.getItem('summonerName')}</div>
-                      <div>Rank "Number" {champion.name}</div>
+                      <div>Ranking: {this.state.internalRanking}</div>
                     </div>
                   </div>
                   <div className="matchpageleftbox">

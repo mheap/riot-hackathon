@@ -166,7 +166,7 @@ const init = async () => {
 
     init.done = true;
     console.log('connecting to mongo...');
-    await mongoose.connect('mongodb://database/match');
+    await mongoose.connect('mongodb://localhost/match');
     console.log('connected!');
 }
 
