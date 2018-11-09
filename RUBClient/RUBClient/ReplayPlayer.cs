@@ -18,7 +18,7 @@ namespace RUBClient
         {
             matchId = ParseURI(uri);
             filePath = null;
-            System.IO.Directory.CreateDirectory(ConfigurationManager.AppSettings["DownloadPath"]);
+            System.IO.Directory.CreateDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\" + ConfigurationManager.AppSettings["DownloadPath"]);
         }
 
         public async Task<bool> DownloadReplay()
@@ -28,7 +28,7 @@ namespace RUBClient
                 try
                 {
                     var dlString = new Uri($"{ConfigurationManager.AppSettings["Server"]}{string.Format(ConfigurationManager.AppSettings["DownloadUrl"], matchId.ToString())}");
-                    var dlPath = $"{ConfigurationManager.AppSettings["DownloadPath"]}NA1-{matchId}.rofl";
+                    var dlPath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\{ConfigurationManager.AppSettings["DownloadPath"]}NA1-{matchId}.rofl";
                     if(System.IO.File.Exists(dlPath))
                     {
                         filePath = dlPath;
@@ -52,7 +52,7 @@ namespace RUBClient
                 return Task.FromResult<bool>(true);
             }
 
-            filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\" + filePath;
+            //filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\" + filePath;
 
             var replayname = Path.GetFileNameWithoutExtension(filePath);
 

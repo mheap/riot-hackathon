@@ -234,10 +234,12 @@ td:first-child, th:first-child {
   -webkit-animation-delay: 1s;
     animation-delay: 1s;
 }
+
 .delay2 {
   -webkit-animation-delay: 2s;
     animation-delay: 2s;
 }
+
 .delay3 {
   -webkit-animation-delay: 3s;
     animation-delay: 3s;
