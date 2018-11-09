@@ -56,10 +56,10 @@ app.get('/match', async (req, res) => {
       return
     }
 
-    const sanitizedData = await matchStore.getRankForPlayerMatch(req.query.summonerName, req.query.matchId)
+    const sanitizedData = await matchStore.getRankForPlayerMatch(req.query.summonerName, req.query.matchId, staticData)
 
     console.log('rank', rank)
-    
+
     res.send(sanitizedData);
   } catch(e) {
     console.log(e)
@@ -81,7 +81,12 @@ app.get('/leaderboard/:champ_id', async (req, res) => {
 });
 
 app.post('/evaluate', async (req, res) => {
-  res.send(await matchStore.getRankForPlayerMatch(req.params.player, req.params.matchId))
+  try {
+    res.send(await matchStore.getRankForPlayerMatch(req.query.player, req.query.matchId, staticData));
+  } catch(e) {
+    console.log(e)
+    res.send({status: 500})
+  }
 });
 
 app.get('/seed', (req, res) => {
