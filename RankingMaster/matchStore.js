@@ -121,15 +121,12 @@ const matchSchema = new mongoose.Schema({
     participants: [participantSchema],
     platformId: String,
     gameDuration: Number,
-    calculatedGameScore: Boolean
 });
 const playerStatsSchema = new mongoose.Schema({
     internalRanking: Number,
     riotClientRanking: String,
-    matchId: Number,
     userRating: Number,
     championId: Number,
-    summonerName: String,
     match: [matchSchema],
     playerIdentity: [playerSchema]
 });
@@ -253,28 +250,20 @@ module.exports = {
     },
 
     getRankForPlayerMatch: async (summonerName, matchId, staticData) => {
-        await init();
-        let _match = await PlayerStats.findOne({ summonerName, matchId });
-
-        if (_match) {
-            return _match.toJSON();
-        }
-
-        _match = await getMatch(matchId)
-        const sanitizedData = await sanitizeMatchDataForSummoner(_match, summonerName, staticData)
+        const match = await getMatch(matchId)
+        const sanitizedData = await sanitizeMatchDataForSummoner(match, summonerName, staticData)
         const rank = await getRankForSanitizedData(sanitizedData)
 
         const playerStats = new PlayerStats({
             internalRanking: rank,
-            summonerName: summonerName,
-            matchId: matchId,
             championId: sanitizedData.userParticipant[0].championId,
-            _match: [_match],
+            match: [match],
             playerIdentity: [sanitizedData.playerIdentity]
         })
 
-        await playerStats.save();
+        await playerStats.save()
 
+<<<<<<< HEAD
         return playerStats.toJSON();
     },
 
@@ -292,6 +281,9 @@ module.exports = {
                 console.log(player)
             });
         }
+=======
+        return playerStats.toJSON()
+>>>>>>> parent of d125ac5... add seed data for leaderboard
     },
 
     startSeed: async () => {

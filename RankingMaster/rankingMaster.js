@@ -119,13 +119,8 @@ app.post('/evaluate', async (req, res) => {
 });
 
 app.get('/seed', (req, res) => {
-  matchStore.startSeed();
-  res.send('ok');
-})
-
-app.get('/calculations_all', (req, res) => {
-  matchStore.startCalc();
-  res.send('ok :D');
+  matchStore.startSeed()
+  res.send('ok')
 })
 
 
