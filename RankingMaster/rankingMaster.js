@@ -44,6 +44,12 @@ app.get('/match', async (req, res) => {
       return
     }
 
+    if (!req.query.summonerName) {
+      res.status(400)
+      res.send('missing summonerName!')
+      return
+    }
+
     const gameData = await matchStore.getMatch(req.query.matchId);
     let sanitizedData = {};
 
@@ -52,7 +58,6 @@ app.get('/match', async (req, res) => {
     sanitizedData.champData = riotApiHelper.findChamp(sanitizedData, staticData.champions);
     sanitizedData.userItems = riotApiHelper.mapItems(sanitizedData, staticData.items);
 
-    console.log(sanitizedData)
     res.send(sanitizedData);
   } catch(e) {
     console.log(e)
@@ -63,13 +68,18 @@ app.get('/match', async (req, res) => {
 });
 
 app.get('/leaderboard/:champ_id', async (req, res) => {
-  const leaderboardData = await matchData.getLeaderboard(req.query.champ_id);
+  try {
+    const leaderboardData = await matchStore.getLeaderboard(req.params.champ_id);
+    res.send(leaderboardData)
+  } catch(e) {
+    res.send({ message: 'Whoops! Something went wrong...', error: e })
+  }
 
-  res.send(leaderboardData)
 });
 
 app.post('/evaluate', async (req, res) => {
   rs.send('90001');
+  // matchStore.setLeaderboard(req.params.player, req.params.matchId, req.params.championId);
 });
 
 

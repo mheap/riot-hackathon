@@ -9,80 +9,110 @@ export default class ChampionPage extends Component {
 
     render() {
       return (
-        <div className="championpagecontainer">
-          <div className="championpageleft">
-            <div className="championTitle script">{this.props.match.params.champion}</div>
-            <table className="championGames">
-              <tr className="championGame">
-                <th>Match ID</th>
-                <th>Summoner Name</th>
-                <th>World Ranking</th>
-                <th>KDA</th>
-              </tr>
-              <tr className="championGame">
-                <td>Match ID</td>
-                <td>Summoner Name</td>
-                <td>World Ranking</td>
-                <td>KDA</td>
-              </tr>
-              <tr className="championGame">
-                <td>Match ID</td>
-                <td>Summoner Name</td>
-                <td>World Ranking</td>
-                <td>KDA</td>
-              </tr>
-              <tr className="championGame">
-                <td>Match ID</td>
-                <td>Summoner Name</td>
-                <td>World Ranking</td>
-                <td>KDA</td>
-              </tr>
-              <tr className="championGame">
-                <td>Match ID</td>
-                <td>Summoner Name</td>
-                <td>World Ranking</td>
-                <td>KDA</td>
-              </tr>
-              <tr className="championGame">
-                <td>Match ID</td>
-                <td>Summoner Name</td>
-                <td>World Ranking</td>
-                <td>KDA</td>
-              </tr>
-              <tr className="championGame">
-                <td>Match ID</td>
-                <td>Summoner Name</td>
-                <td>World Ranking</td>
-                <td>KDA</td>
-              </tr>
-              <tr className="championGame">
-                <td>Match ID</td>
-                <td>Summoner Name</td>
-                <td>World Ranking</td>
-                <td>KDA</td>
-              </tr>
-              <tr className="championGame">
-                <td>Match ID</td>
-                <td>Summoner Name</td>
-                <td>World Ranking</td>
-                <td>KDA</td>
-              </tr>
-              <tr className="championGame">
-                <td>Match ID</td>
-                <td>Summoner Name</td>
-                <td>World Ranking</td>
-                <td>KDA</td>
-              </tr>
-              <tr className="championGame">
-                <td>Match ID</td>
-                <td>Summoner Name</td>
-                <td>World Ranking</td>
-                <td>KDA</td>
-              </tr>
-            </table>
-          </div>
-          <div className="championpageright">
-            <img className="championImage" src={profileImage(this.props.match.params.champion)} />
+        <div>
+          <a href="/">
+            <div id="arrowAnim">
+              <div className="arrowSliding">
+                <div className="arrow"></div>
+              </div>
+              <div className="arrowSliding delay1">
+                <div className="arrow"></div>
+              </div>
+              <div className="arrowSliding delay2">
+                <div className="arrow"></div>
+              </div>
+              <div className="arrowSliding delay3">
+                <div className="arrow"></div>
+              </div>
+            </div>
+          </a>
+          <div className="championpagecontainer">
+            <div className="championpagetop">
+              <img className="championImage" src={profileImage(this.props.match.params.champion)} />
+              <div className="championTitle script">{this.props.match.params.champion}</div>
+            </div>
+            <div className="championpagebottom">
+              <table className="championGames">
+                <tr className="championGame">
+                  <th>World Ranking</th>
+                  <th>Summoner Name</th>
+                  <th>Match ID</th>
+                  <th>KDA</th>
+                  <th>More Info</th>
+                </tr>
+                <tr className="championGame">
+                  <td>World Ranking</td>
+                  <td>Summoner Name</td>
+                  <td>Match ID</td>
+                  <td>KDA</td>
+                  <td><button className="more-info-button">More Info</button></td>
+                </tr>
+                <tr className="championGame">
+                  <td>World Ranking</td>
+                  <td>Summoner Name</td>
+                  <td>Match ID</td>
+                  <td>KDA</td>
+                  <td><button className="more-info-button">More Info</button></td>
+                </tr>
+                <tr className="championGame">
+                  <td>World Ranking</td>
+                  <td>Summoner Name</td>
+                  <td>Match ID</td>
+                  <td>KDA</td>
+                  <td><button className="more-info-button">More Info</button></td>
+                </tr>
+                <tr className="championGame">
+                  <td>World Ranking</td>
+                  <td>Summoner Name</td>
+                  <td>Match ID</td>
+                  <td>KDA</td>
+                  <td><button className="more-info-button">More Info</button></td>
+                </tr>
+                <tr className="championGame">
+                  <td>World Ranking</td>
+                  <td>Summoner Name</td>
+                  <td>Match ID</td>
+                  <td>KDA</td>
+                  <td><button className="more-info-button">More Info</button></td>
+                </tr>
+                <tr className="championGame">
+                  <td>World Ranking</td>
+                  <td>Summoner Name</td>
+                  <td>Match ID</td>
+                  <td>KDA</td>
+                  <td><button className="more-info-button">More Info</button></td>
+                </tr>
+                <tr className="championGame">
+                  <td>World Ranking</td>
+                  <td>Summoner Name</td>
+                  <td>Match ID</td>
+                  <td>KDA</td>
+                  <td><button className="more-info-button">More Info</button></td>
+                </tr>
+                <tr className="championGame">
+                  <td>World Ranking</td>
+                  <td>Summoner Name</td>
+                  <td>Match ID</td>
+                  <td>KDA</td>
+                  <td><button className="more-info-button">More Info</button></td>
+                </tr>
+                <tr className="championGame">
+                  <td>World Ranking</td>
+                  <td>Summoner Name</td>
+                  <td>Match ID</td>
+                  <td>KDA</td>
+                  <td><button className="more-info-button">More Info</button></td>
+                </tr>
+                <tr className="championGame">
+                  <td>World Ranking</td>
+                  <td>Summoner Name</td>
+                  <td>Match ID</td>
+                  <td>KDA</td>
+                  <td><button className="more-info-button">More Info</button></td>
+                </tr>
+              </table>
+            </div>
+
           </div>
         </div>
       );

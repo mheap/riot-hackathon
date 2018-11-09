@@ -1,13 +1,20 @@
 version: '3'
+
 services:
   mongo:
     image: mongo:latest
+    volumes:
+      - ./RankingMaster/db:/data/db
     env_file:
       - ./RankingMaster.env
+    ports:
+      - "27017:27017"
   python_replay:
     build: ReplayService
     ports:
      - "5000:5000"
+    volumes:
+     - ./ReplayService/uploads:/app/uploads
   ranking_master:
     build: RankingMaster
     env_file:
@@ -18,4 +25,3 @@ services:
       - "mongo"
     links:
       - "mongo:database"
-  
