@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom'
 import SelectChampion from './SelectChampion';
 import ChampionPage from './ChampionPage';
-import MatchPage from './MatchPage';
 import './index.css';
 
 const PrimaryLayout = () => (

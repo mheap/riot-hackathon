@@ -39,8 +39,7 @@ export default class SelectChampion extends Component {
       return (
         <div className="App">
           <div className="plate">
-            <p className="shadow text1">UPLOAD</p>
-            <p className="shadow text2">ROFL</p>
+            <p className="shadow text2">ROFLMAO</p>
           </div>
           <div className="upload-button">
             <ReactDropzone disableClick onDrop={this.onDrop}>
