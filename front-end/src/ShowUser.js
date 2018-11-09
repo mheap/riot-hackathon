@@ -10,8 +10,8 @@ export default class ShowUser extends Component {
 
     componentDidMount() {
 
-        const baseUrl = 'http://localhost:3000';
-        //const baseUrl = 'http://roflmao.eastus.cloudapp.azure.com:3000';
+        //const baseUrl = 'http://localhost:3000';
+        const baseUrl = 'http://roflmao.eastus.cloudapp.azure.com:3000';
         const url = baseUrl + '/match-history/' + localStorage.getItem("summonerName");
         const res = request.get(url);
 

@@ -7,8 +7,8 @@ export default class MatchPage extends Component {
     state = {};
     componentDidMount() {
         // Load information
-        const baseUrl = 'http://localhost:3000';
-        //const baseUrl = 'http://roflmao.eastus.cloudapp.azure.com:3000';
+        //const baseUrl = 'http://localhost:3000';
+        const baseUrl = 'http://roflmao.eastus.cloudapp.azure.com:3000';
         const url = baseUrl + '/match?matchId='+this.props.match.params.match_id+'&summonerName=' + localStorage.getItem("summonerName");
         console.log(url);
         const res = request.get(url);

@@ -26,7 +26,8 @@ export default class SelectChampion extends Component {
         }
 
         // POST to a test endpoint for demo purposes
-        const req = request.post('http://localhost:5000/upload');
+        const baseUrl = 'http://roflmao.eastus.cloudapp.azure.com:5000/upload';
+        const req = request.post(baseUrl);
 
         files.forEach(file => {
             req.attach("file", file);
