@@ -1,5 +1,7 @@
 ﻿
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -34,7 +36,8 @@ namespace LcuApi
 
             if (!Enum.TryParse(JsonConvert.DeserializeObject<string>(gameflowStr), out GameflowState state))
             {
-                throw new InvalidDataException();
+                Debugger.Log(0, string.Empty, $"invalid valid for enum: {gameflowStr}");
+                return GameflowState.None;
             }
 
             return state;

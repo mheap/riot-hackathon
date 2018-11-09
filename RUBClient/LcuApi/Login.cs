@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -14,6 +11,7 @@ namespace LcuApi
         {
             public int AccountId { get; set; }
             public bool Connected { get; set; }
+            public string Puuid { get; set; }
             public int SummonerId { get; set; }
             public string Username { get; set; }
         }

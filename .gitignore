@@ -1,5 +1,5 @@
 ReplayService/uploads
-
+build/
 .vscode/
 *.dll
 *.rofl

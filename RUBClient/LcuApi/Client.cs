@@ -77,7 +77,7 @@ namespace LcuApi
                                 "Authorization",
                                 $"Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"riot:{args.Password}"))}"
                             }
-                        }
+                        },
                     };
                     var socket = new ClientWebSocket();
                     var uri = new Uri($"ws://{connectionString}");
