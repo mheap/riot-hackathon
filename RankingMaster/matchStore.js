@@ -192,6 +192,10 @@ module.exports = {
     },
 
     setLeaderboard: async (player, matchId, championId) => {
+        const obj = { player, matchId, championId };
+        const playerStats = new PlayerStats(obj);
+        await playerStats.save();
 
+        return playerStats.toJSON();
     }
 };
