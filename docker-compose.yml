@@ -13,19 +13,19 @@ services:
      - "5000:5000"
     volumes:
      - ./ReplayService/uploads:/app/uploads
-       #ranking_master:
-       #  build: RankingMaster
-       #  env_file:
-       #    - ./RankingMaster.env
-       #  ports:
-       #    - "3000:3000"
-       #  depends_on:
-       #    - "mongo"
-       #  links:
-       #    - "mongo:database"
-        #website:
-        #  build: front-end
-        #  ports:
-        #    - "80:4000"
-        #  depends_on:
-        #    - "ranking_master"
+  ranking_master:
+    build: RankingMaster
+    env_file:
+      - ./RankingMaster.env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "mongo"
+    links:
+      - "mongo:database"
+  website:
+    build: front-end
+    ports:
+      - "80:4000"
+    depends_on:
+      - "ranking_master"
