@@ -11,6 +11,10 @@ import './index.css';
 class PrimaryLayout extends Component {
 
     render() {
+        if (window.location.pathname === "/logout"){
+            localStorage.removeItem("summonerName");
+        }
+
         if (window.location.pathname !== "/" && !localStorage.getItem("summonerName")){
             return <Redirect to='/' />
         }
