@@ -166,10 +166,6 @@
   transition: all 0.3s ease 0s;
 }
 
-.dropzone {
-    width: 300px;
-}
-
 .dropzone a {
     color: white;
 }
