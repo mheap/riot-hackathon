@@ -51,7 +51,6 @@ app.get('/match', async (req, res) => {
     }
 
     const gameData = await matchStore.getMatch(req.query.matchId);
-      console.log(gameData);
     let sanitizedData = {};
 
     sanitizedData.userIdentity = gameData.participantIdentities.filter(_pId => _pId.player[0].summonerName == req.query.summonerName && _pId.player);
