@@ -173,9 +173,10 @@ module.exports = {
         let match = await Match.findOne({getMatchId: matchId});
 
         if (match) {
-            return match;
+            return match.toJSON();
         }
 
+        console.log("Cache miss!");
         match = await kayn.Match.get(matchId);
 
         const matchDto = new Match(match);
