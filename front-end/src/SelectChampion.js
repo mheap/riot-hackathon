@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import { GridGenerator, HexGrid, Layout, Hexagon, Text, Pattern } from 'react-hexgrid';
 import ReactDropzone from "react-dropzone";
 import request from "superagent";
-
 import './App.css';
 import {champions, profileImage} from './champion';
-import ReactTable from "react-table";
-import 'react-table/react-table.css';
 
 export default class SelectChampion extends Component {
 

@@ -90,14 +90,16 @@
 
 .upload-button {
     text-align: center;
+    position: absolute;
     font-size: 2em;
-    position: relative;
-    top:750px;
+    top: 845px;
     background: #ccc;
-    left: 600px;
+    left: 41%;
     width: 200px;
     padding: 10px;
     color: black;
+    border-radius: 10px;
+    height: 203px;
 }
 
 .demoText {

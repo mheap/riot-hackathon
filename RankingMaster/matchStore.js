@@ -121,8 +121,8 @@ const matchSchema = new mongoose.Schema({
 });
 const playerStatsSchema = new mongoose.Schema({
     internalRanking: Number,
-    externalRanking: String,
-    rating: Number,
+    riotClientRanking: String,
+    userRating: Number,
     championId: Number,
     match: [matchSchema],
     playerIdentity: [playerSchema]
@@ -130,7 +130,8 @@ const playerStatsSchema = new mongoose.Schema({
 const commentSchema = new mongoose.Schema({
     username: String,
     comment: String,
-    timestamp: Date
+    timestamp: Date,
+    matchId: Number
 });
 const champBaseline = new mongoose.Schema({
     championId: Number,
@@ -169,7 +170,6 @@ const init = async () => {
 module.exports = {
     getMatch: async (matchId) => {
         await init();
-        await Match.findOneAndDelete({gameId: matchId});
         let match = await Match.findOne({getMatchId: matchId});
 
         if (match) {
@@ -186,8 +186,16 @@ module.exports = {
 
     getLeaderboard: async (championId) => {
         await init();
-        const leaderboard = await PlayerStats.find({ championId });
+        let leaderboard = await PlayerStats.find({ championId });
 
-        return leaderboard.toJSON();
+        return leaderboard;
+    },
+
+    setLeaderboard: async (player, matchId, championId) => {
+        const obj = { player, matchId, championId };
+        const playerStats = new PlayerStats(obj);
+        await playerStats.save();
+
+        return playerStats.toJSON();
     }
 };
