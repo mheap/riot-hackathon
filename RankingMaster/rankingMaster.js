@@ -39,43 +39,7 @@ app.get('/static-data', (req, res) => {
   res.send(staticData);
 });
 
-const sanitizeMatchDataForSummoner = async (matchId, summonerName) => {
-  const gameData = await matchStore.getMatch(matchId);
-  let sanitizedData = { totalGameKills: 0, totalGameDamage: 0, gameDuration: gameData.gameDuration, rawGameScore: {} };
 
-  sanitizedData.userIdentity = gameData.participantIdentities.filter(_pId => _pId.player[0].summonerName == summonerName && _pId.player);
-  sanitizedData.userParticipant = gameData.participants.filter(_p => sanitizedData.userIdentity[0].participantId === _p.participantId && _p)
-  sanitizedData.champData = riotApiHelper.findChamp(sanitizedData, staticData.champions);
-  sanitizedData.userItems = riotApiHelper.mapItems(sanitizedData, staticData.items);
-
-
-  gameData.participants.forEach(player => {
-    if (player.teamId === sanitizedData.userParticipant[0].teamId) {
-      sanitizedData.totalGameKills += player.stats.kills;
-      sanitizedData.totalGameDamage += player.stats.totalDamageDealtToChampions;
-    }
-  });
-
-  return sanitizedData
-}
-
-const getRankForSummoner = async (sanitizedData) => {
-  const user = sanitizedData.userParticipant[0];
-  const rawScore = sanitizedData.rawGameScore;
-
-  rawScore.CsPerMinute = user.stats.totalMinionsKilled / sanitizedData.gameDuration;
-  rawScore.Kda = (user.stats.kills + user.stats.assists) / user.stats.deaths;
-  rawScore.VisionScorePerHour = user.stats.visionScore;
-  rawScore.CsDiffAtLaningEnd = user.timeline.csDiffPerMinDeltas["0-10"] + user.timeline.csDiffPerMinDeltas["10-20"];
-  rawScore.DamagePerGold = user.stats.totalDamageDealtToChampions / user.stats.goldEarned;
-  rawScore.DamagePerDeath = user.stats.totalDamageDealtToChampions / user.stats.deaths;
-  rawScore.teamDamagePercentage =  user.stats.totalDamageDealtToChampions / sanitizedData.totalGameDamage;
-  rawScore.KillParticipation = user.stats.kills / sanitizedData.totalGameKills;
-
-  const rank = riotApiHelper.rankStats(rawScore, sanitizedData.userParticipant[0].championId);
-
-  return rank
-}
 
 app.get('/match', async (req, res) => {
   try {
@@ -92,8 +56,7 @@ app.get('/match', async (req, res) => {
       return
     }
 
-    const sanitizedData = await sanitizeMatchDataForSummoner(matchId, req.query.summonerName)
-    const rank = await getRankForSummoner(sanitizedData)
+    const sanitizedData = await matchStore.getRankForPlayerMatch(req.query.summonerName, req.query.matchId)
 
     console.log('rank', rank)
     
@@ -105,8 +68,6 @@ app.get('/match', async (req, res) => {
     res.send({ message: "Whoops! Something went wrong...", error: e });
   }
 });
-
-
 
 app.get('/leaderboard/:champ_id', async (req, res) => {
   // The champ names sent to this endpoint need to be properly capitalized,
@@ -120,8 +81,7 @@ app.get('/leaderboard/:champ_id', async (req, res) => {
 });
 
 app.post('/evaluate', async (req, res) => {
-  rs.send('90001');
-  // matchStore.setLeaderboard(req.params.player, req.params.matchId, req.params.championId);
+  res.send(await matchStore.getRankForPlayerMatch(req.params.player, req.params.matchId))
 });
 
 app.get('/seed', (req, res) => {

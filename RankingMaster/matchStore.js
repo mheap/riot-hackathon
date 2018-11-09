@@ -188,6 +188,43 @@ const getMatch = async (matchId) => {
     return matchDto.toJSON();
 }
 
+const sanitizeMatchDataForSummoner = async (gameData, summonerName) => {
+    let sanitizedData = { totalGameKills: 0, totalGameDamage: 0, gameDuration: gameData.gameDuration, rawGameScore: {} };
+  
+    sanitizedData.userIdentity = gameData.participantIdentities.filter(_pId => _pId.player[0].summonerName == summonerName && _pId.player);
+    sanitizedData.userParticipant = gameData.participants.filter(_p => sanitizedData.userIdentity[0].participantId === _p.participantId && _p)
+    sanitizedData.champData = riotApiHelper.findChamp(sanitizedData, staticData.champions);
+    sanitizedData.userItems = riotApiHelper.mapItems(sanitizedData, staticData.items);
+  
+  
+    gameData.participants.forEach(player => {
+      if (player.teamId === sanitizedData.userParticipant[0].teamId) {
+        sanitizedData.totalGameKills += player.stats.kills;
+        sanitizedData.totalGameDamage += player.stats.totalDamageDealtToChampions;
+      }
+    });
+  
+    return sanitizedData
+  }
+  
+  const getRankForSanitizedData = async (sanitizedData) => {
+    const user = sanitizedData.userParticipant[0];
+    const rawScore = sanitizedData.rawGameScore;
+  
+    rawScore.CsPerMinute = user.stats.totalMinionsKilled / sanitizedData.gameDuration;
+    rawScore.Kda = (user.stats.kills + user.stats.assists) / user.stats.deaths;
+    rawScore.VisionScorePerHour = user.stats.visionScore;
+    rawScore.CsDiffAtLaningEnd = user.timeline.csDiffPerMinDeltas["0-10"] + user.timeline.csDiffPerMinDeltas["10-20"];
+    rawScore.DamagePerGold = user.stats.totalDamageDealtToChampions / user.stats.goldEarned;
+    rawScore.DamagePerDeath = user.stats.totalDamageDealtToChampions / user.stats.deaths;
+    rawScore.teamDamagePercentage =  user.stats.totalDamageDealtToChampions / sanitizedData.totalGameDamage;
+    rawScore.KillParticipation = user.stats.kills / sanitizedData.totalGameKills;
+  
+    const rank = riotApiHelper.rankStats(rawScore, sanitizedData.userParticipant[0].championId);
+  
+    return rank
+  }
+
 module.exports = {
     getMatch: getMatch,
 
@@ -204,6 +241,23 @@ module.exports = {
         await playerStats.save();
 
         return playerStats.toJSON();
+    },
+
+    getRankForPlayerMatch: async (summonerName, matchId) => {
+        const match = await getMatch(matchId)
+        const sanitizedData = await sanitizeMatchDataForSummoner(match, summonerName)
+        const rank = await getRankForSanitizedData(sanitizedData)
+
+        const playerStats = new PlayerStats({
+            internalRanking: rank,
+            championId: sanitizedData.userParticipant[0].championId,
+            match: [match],
+            playerIdentity: [sanitizedData.playerIdentity]
+        })
+
+        await playerStats.save()
+
+        return playerStats.toJSON()
     },
 
     startSeed: async () => {
