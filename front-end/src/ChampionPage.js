@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {champions, profileImage} from './champion';
 
 export default class ChampionPage extends Component {
 
