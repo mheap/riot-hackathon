@@ -1,17 +1,38 @@
 import React, { Component } from 'react';
+import request from "superagent";
 import {profileImage} from './champion';
 
 export default class ShowUser extends Component {
 
     state = {
-        matches: [
-            { "champion": "Garen", "match_id": "2904531429", "kda": "18/3/4", "ranking": "" },
-            { "champion": "Jinx", "match_id": "2893746282", "kda": "0/5/1", "ranking": "" },
-            { "champion": "Illaoi", "match_id": "282639718", "kda": "8/8/3", "ranking": "" },
-            { "champion": "Shaco", "match_id": "2330183648", "kda": "6/2/1", "ranking": "" },
-            { "champion": "Garen", "match_id": "2313846292", "kda": "3/8/2", "ranking": "" },
-            { "champion": "Blitzcrank", "match_id": "2298364937", "kda": "3/5/18", "ranking": "" },
-        ]
+        matches: []
+    }
+
+    componentDidMount() {
+
+        const baseUrl = 'http://localhost:3000';
+        //const baseUrl = 'http://roflmao.eastus.cloudapp.azure.com:3000';
+        const url = baseUrl + '/match-history/' + localStorage.getItem("summonerName");
+        const res = request.get(url);
+
+        res.then((data) => {
+            let matches = data.body.map((m) => {
+                if (!m.champion[0]){
+                    return false;
+                }
+                return {
+                    "champion": m.champion[0].name,
+                    "match_id": m.gameId,
+                    "kda": "TBC",
+                    "ranking": "TBC"
+                }
+            });
+            matches = matches.filter((m) => m);
+
+                 this.setState({
+                     matches: matches
+                 });
+        });
     }
 
     render() {
@@ -54,7 +75,7 @@ export default class ShowUser extends Component {
                     <td><img alt="{champion}" src={profileImage(match.champion)} /></td>
                     <td>{match.ranking}</td>
                     <td>{match.champion}</td>
-                    <td>{match.match_id}</td>
+                    <td><a href={"/match/" + match.match_id}>{match.match_id}</a></td>
                     <td>{match.kda}</td>
                     <td><a href={"roflmao://match-id/" + match.match_id} className="more-info-button">Download</a></td>
                    </tr>

@@ -5,33 +5,12 @@ import {profileImage} from './champion';
 export default class MatchPage extends Component {
 
     state = {};
-    //state = {
-    //    game: {
-    //            championId: 1234,
-    //            position: 'Top',
-    //            queueType: 'rankedsolo',
-    //            rankTier: 'Gold',
-    //            csDiffAtLaningEnd: -28,
-    //            csPerMinute: 4,
-    //            damagePerDeath: 1939,
-    //            damagePerGold: 1834,
-    //            damageShare: 18.3,
-    //            goldDiffAtLaningEnd: -1022,
-    //            kda: 0.18,
-    //            killConversionRatio: 0.8,
-    //            killParticipation: 66,
-    //            objectiveControlRatio: 0.3,
-    //            roamDominanceScore: 1093,
-    //            utilityScore:  283,
-    //            visionScorePerHour:  14,
-    //        };
-
-    //}
     componentDidMount() {
         // Load information
-        //const baseUrl = 'http://localhost:3000/';
-        const baseUrl = 'http://roflmao.eastus.cloudapp.azure.com:3000';
+        const baseUrl = 'http://localhost:3000';
+        //const baseUrl = 'http://roflmao.eastus.cloudapp.azure.com:3000';
         const url = baseUrl + '/match?matchId='+this.props.match.params.match_id+'&summonerName=' + localStorage.getItem("summonerName");
+        console.log(url);
         const res = request.get(url);
 
         res.then((data) => {
@@ -69,7 +48,7 @@ export default class MatchPage extends Component {
 
         return (
             <div>
-              <a href="/">
+              <a href="/me">
                 <div id="arrowAnim">
                   <div className="arrowSliding">
                     <div className="arrow"></div>

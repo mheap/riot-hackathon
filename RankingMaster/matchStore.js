@@ -189,6 +189,11 @@ const getMatch = async (matchId) => {
 module.exports = {
     getMatch: getMatch,
 
+    getMatchHistory: async (summonerName) => {
+        const summoner = await kayn.Summoner.by.name(summonerName)
+        return (await kayn.Matchlist.by.accountID(summoner.accountId)).matches
+    },
+
     getLeaderboard: async (championId) => {
         await init();
         let leaderboard = await PlayerStats.find({ championId });
