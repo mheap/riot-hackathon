@@ -22,9 +22,7 @@ export default class ShowUser extends Component {
                 }
                 return {
                     "champion": m.champion[0].name,
-                    "match_id": m.gameId,
-                    "kda": "TBC",
-                    "ranking": "TBC"
+                    "match_id": m.gameId
                 }
             });
             matches = matches.filter((m) => m);
@@ -61,10 +59,8 @@ export default class ShowUser extends Component {
             <thead>
                 <tr className="championGame">
                   <th>Image</th>
-                  <th>World Ranking</th>
                   <th>Summoner Name</th>
                   <th>Match ID</th>
-                  <th>KDA</th>
                   <th>Download</th>
                 </tr>
             </thead>
@@ -73,10 +69,8 @@ export default class ShowUser extends Component {
                 return (
                    <tr key={match.match_id} className="championGame">
                     <td><img alt="{champion}" src={profileImage(match.champion)} /></td>
-                    <td>{match.ranking}</td>
                     <td>{match.champion}</td>
                     <td><a href={"/match/" + match.match_id}>{match.match_id}</a></td>
-                    <td>{match.kda}</td>
                     <td><a href={"roflmao://match-id/" + match.match_id} className="more-info-button">Download</a></td>
                    </tr>
                 )

@@ -8,9 +8,10 @@ export default class ChampionPage extends Component {
     }
 
     componentDidMount() {
+        let me = localStorage.getItem("summonerName");
         this.setState({
             matches: [
-                {"summoner":"pseudonym117", "match_id": 1234}
+                {"summoner": me, "match_id": 2904903651},
             ]
         });
     }
@@ -44,20 +45,16 @@ export default class ChampionPage extends Component {
               <table className="championGames">
                 <thead>
                 <tr className="championGame">
-                  <th>World Ranking</th>
                   <th>Summoner Name</th>
                   <th>Match ID</th>
-                  <th>KDA</th>
                   <th>Download Replay</th>
                 </tr>
                 </thead>
                 <tbody>
             {this.state.matches.map((match) => {
                 return (<tr className="championGame">
-                  <td>{match.ranking}</td>
                   <td>{match.summoner}</td>
-                  <td>{match.match_id}</td>
-                  <td>{match.kda}</td>
+                  <td><a href={"/match/" + match.match_id}>{match.match_id}</a></td>
                   <td><a href={"roflmao://match-id/" + match.match_id} className="more-info-button">Download</a></td>
                 </tr>)
             })}
