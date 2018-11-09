@@ -281,11 +281,13 @@ module.exports = {
     startCalc: async () => {
         while (true) {
             let _match = await Match.findOne({calculatedGameScore: { '$exists': false }})
+            console.log(_match);
 
             if (!_match) {
                 return;
             }
 
+            console.log('hit!');
             _match.participantIdentities.map(player => {
                 console.log(player)
             });
