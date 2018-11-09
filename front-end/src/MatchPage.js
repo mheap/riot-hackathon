@@ -49,11 +49,11 @@ export default class MatchPage extends Component {
         let raw = this.state.raw;
         let items = this.state.items;
 
-        if (!champion){
-            return null
-        }
-
         console.log(items);
+
+        if (!champion) {
+            return null;
+        }
 
         return (
             <div>
@@ -86,12 +86,10 @@ export default class MatchPage extends Component {
                       <div className="shadow text1 matchsummonername">{localStorage.getItem('summonerName')}</div>
                       <div>Rank "Number" {champion.name} in "Region"</div>
                     </div>
-                    <div>
-                      <div>Match Date</div>
-                    </div>
                   </div>
                   <div className="matchpageleftbox">
-                    <div>Match ID#</div>
+                    <div>Match ID#: </div>
+                    <div>Match Date: </div>
                     <button className="downloadbutton">WATCH REPLAY</button>
                   </div>
                   <div className="matchpageleftbox">
