@@ -34,7 +34,6 @@ export default class ChampionPage extends Component {
                   <th>Summoner Name</th>
                   <th>Match ID</th>
                   <th>KDA</th>
-                  <th>More Info</th>
                 </tr>
                 <tr className="championGame">
                   <td>World Ranking</td>

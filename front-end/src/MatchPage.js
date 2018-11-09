@@ -45,15 +45,6 @@ export default class MatchPage extends Component {
     render() {
         let champion = this.state.champion;
 
-        if (!this.state || !this.state.champion) {
-            return (
-                <div className="championpagecontainer">
-                <div className="championpagetop">
-                <div className="championTitle script">Loading...</div>
-                </div>
-                </div>
-            );
-        }
 
         return (
             <div>
@@ -78,34 +69,35 @@ export default class MatchPage extends Component {
 
               <div className="matchpagecontainer">
                 <div className="matchpageleft">
-                  <div className="left-1">
+                  <div className="matchpageleftbox">
                     <div>
                       <img className="matchpagechampimg" src="https://vignette.wikia.nocookie.net/leagueoflegends/images/6/66/Fat_Poro_Icon.png/revision/latest?cb=20150215130030" />
                     </div>
                     <div>
-                      <div>Summoner Name</div>
+                      <div className="shadow text1 matchsummonername">Summoner Name</div>
                       <div>Rank "Number" "Champion Name" in "Region"</div>
                     </div>
                     <div>
                       <div>Match Date</div>
-                      <div>% Upvoted</div>
                     </div>
                   </div>
-                  <div className="left-2">
+                  <div className="matchpageleftbox">
                     <div>Match ID#</div>
-                    <button>DOWNLOAD REPLAY</button>
+                    <button className="downloadbutton">WATCH REPLAY</button>
                   </div>
-                  <div className="left-3">
-                    <div>KDA: </div>
-                    <div>Largest Killing Spree: </div>
-                    <div>Game Time: </div>
-                    <div>Time Stamp: </div>
-                  </div>
-                  <div className="left-4">
-                    <div>Win/Loss: </div>
-                    <div>Level: </div>
-                    <div>CS: </div>
-                    <div>Kill Participation: </div>
+                  <div className="matchpageleftbox">
+                    <div className="statbox">
+                      <div className="stat">KDA: </div>
+                      <div className="stat">Largest Killing Spree: </div>
+                      <div className="stat">Game Time: </div>
+                      <div className="stat">Time Stamp: </div>
+                    </div>
+                    <div className="statbox">
+                      <div className="stat">Win/Loss: </div>
+                      <div className="stat">Level: </div>
+                      <div className="stat">CS: </div>
+                      <div className="stat">Kill Participation: </div>
+                    </div>
                   </div>
                 </div>
                 <div className="matchpageright">
