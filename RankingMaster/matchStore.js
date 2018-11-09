@@ -163,7 +163,7 @@ const init = async () => {
 
     init.done = true;
     console.log('connecting to mongo...');
-    await mongoose.connect('mongodb://localhost/match');
+    await mongoose.connect('mongodb://database/match');
     console.log('connected!');
 }
 
