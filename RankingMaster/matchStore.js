@@ -121,12 +121,15 @@ const matchSchema = new mongoose.Schema({
     participants: [participantSchema],
     platformId: String,
     gameDuration: Number,
+    calculatedGameScore: Boolean
 });
 const playerStatsSchema = new mongoose.Schema({
     internalRanking: Number,
     riotClientRanking: String,
+    matchId: Number,
     userRating: Number,
     championId: Number,
+    summonerName: String,
     match: [matchSchema],
     playerIdentity: [playerSchema]
 });
@@ -250,20 +253,45 @@ module.exports = {
     },
 
     getRankForPlayerMatch: async (summonerName, matchId, staticData) => {
-        const match = await getMatch(matchId)
-        const sanitizedData = await sanitizeMatchDataForSummoner(match, summonerName, staticData)
+        await init();
+        let _match = await PlayerStats.findOne({ summonerName, matchId });
+
+        if (_match) {
+            return _match.toJSON();
+        }
+
+        _match = await getMatch(matchId)
+        const sanitizedData = await sanitizeMatchDataForSummoner(_match, summonerName, staticData)
         const rank = await getRankForSanitizedData(sanitizedData)
 
         const playerStats = new PlayerStats({
             internalRanking: rank,
+            summonerName: summonerName,
+            matchId: matchId,
             championId: sanitizedData.userParticipant[0].championId,
-            match: [match],
+            _match: [_match],
             playerIdentity: [sanitizedData.playerIdentity]
         })
 
-        await playerStats.save()
+        await playerStats.save();
 
-        return playerStats.toJSON()
+        return playerStats.toJSON();
+    },
+
+    startCalc: async () => {
+        while (true) {
+            let _match = await Match.findOne({calculatedGameScore: { '$exists': false }})
+            console.log(_match);
+
+            if (!_match) {
+                return;
+            }
+
+            console.log('hit!');
+            _match.participantIdentities.map(player => {
+                console.log(player)
+            });
+        }
     },
 
     startSeed: async () => {
