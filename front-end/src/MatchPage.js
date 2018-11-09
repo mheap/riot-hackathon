@@ -77,7 +77,7 @@ export default class MatchPage extends Component {
                     </div>
                     <div>
                       <div className="shadow text1 matchsummonername">{localStorage.getItem('summonerName')}</div>
-                      <div>Rank "Number" {champion.name} in "Region"</div>
+                      <div>Rank "Number" {champion.name}</div>
                     </div>
                   </div>
                   <div className="matchpageleftbox">
