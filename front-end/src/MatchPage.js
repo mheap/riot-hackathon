@@ -45,6 +45,33 @@ export default class MatchPage extends Component {
     render() {
         let champion = this.state.champion;
 
+        {/*if (!this.state || !this.state.champion) {
+            return (
+              <div>
+                <a href="/">
+                  <div id="arrowAnim">
+                    <div className="arrowSliding">
+                      <div className="arrow"></div>
+                    </div>
+                    <div className="arrowSliding delay1">
+                      <div className="arrow"></div>
+                    </div>
+                    <div className="arrowSliding delay2">
+                      <div className="arrow"></div>
+                    </div>
+                    <div className="arrowSliding delay3">
+                      <div className="arrow"></div>
+                    </div>
+                  </div>
+                </a>
+                <div className="championpagecontainer">
+                  <div className="championpagetop">
+                    <div className="championTitle script">Loading...</div>
+                  </div>
+                </div>
+              </div>
+            );
+        }*/}
 
         return (
             <div>
@@ -77,12 +104,10 @@ export default class MatchPage extends Component {
                       <div className="shadow text1 matchsummonername">Summoner Name</div>
                       <div>Rank "Number" "Champion Name" in "Region"</div>
                     </div>
-                    <div>
-                      <div>Match Date</div>
-                    </div>
                   </div>
                   <div className="matchpageleftbox">
-                    <div>Match ID#</div>
+                    <div>Match ID#: </div>
+                    <div>Match Date: </div>
                     <button className="downloadbutton">WATCH REPLAY</button>
                   </div>
                   <div className="matchpageleftbox">

@@ -349,9 +349,29 @@ td:first-child, th:first-child {
 .matchpageright {
   width: 25%;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  margin-bottom: 30%;
+}
+
+.championimagebox {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10%;
+}
+
+.championname {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20%;
+}
+
+.championdescription {
+  display: flex;
+  justify-content: center;
+}
+
+.matchpagerighttext {
+  width: 100%;
 }
 
 .championimagebox {
