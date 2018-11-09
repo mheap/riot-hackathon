@@ -63,9 +63,13 @@ app.get('/match', async (req, res) => {
 });
 
 app.get('/leaderboard/:champ_id', async (req, res) => {
-  const leaderboardData = await matchData.getLeaderboard(req.query.champ_id);
+  try {
+    const leaderboardData = await matchStore.getLeaderboard(req.params.champ_id);
+    res.send(leaderboardData)
+  } catch(e) {
+    res.send({ message: 'Whoops! Something went wrong...', error: e })
+  }
 
-  res.send(leaderboardData)
 });
 
 app.post('/evaluate', async (req, res) => {
