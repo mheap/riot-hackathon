@@ -52,7 +52,7 @@ app.get('/match', async (req, res) => {
     sanitizedData.champData = riotApiHelper.findChamp(sanitizedData, staticData.champions);
     sanitizedData.userItems = riotApiHelper.mapItems(sanitizedData, staticData.items);
 
-    console.log(sanitizedData)
+    //console.log(sanitizedData)
     res.send(sanitizedData);
   } catch(e) {
     console.log(e)
