@@ -9,7 +9,7 @@ export default class SelectChampion extends Component {
 
     constructor(props) {
       super(props);
-      this.uploadText = 'Drop your replay here'
+      this.uploadText = 'Drop Your Replay Here'
     }
 
     onDrop = (files) => {

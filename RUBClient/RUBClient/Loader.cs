@@ -19,7 +19,12 @@ namespace RUBClient
         {
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true;
 
-            if (args.Length > 1)
+            if (args.Length == 1)
+            {
+                AsyncPlay(args).Wait();
+                Environment.Exit(1);
+            }
+            else if (args.Length > 1)
             {
                 var collectArg = args.SkipWhile(arg => arg != "--collect").Skip(1).Take(1).First();
 
@@ -65,6 +70,21 @@ namespace RUBClient
                 }
 
                 return _dispatcher;
+            }
+        }
+
+        public static async Task AsyncPlay(string[] args)
+        {
+            //var client = await Client.Connect();
+            var viewer = new ReplayPlayer(args[0]);
+            //var downpath = await client.Replays.GetRoflsPath();
+
+            var downloaded = await viewer.DownloadReplay(); //FINISH REPLAYS
+            if (downloaded)
+            {
+                //client.Replays.WatchMatchReplay((long)viewer.matchId);
+                Console.WriteLine(viewer.matchId);
+                await viewer.StartReplay();
             }
         }
 
