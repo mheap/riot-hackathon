@@ -229,30 +229,7 @@ const sanitizeMatchDataForSummoner = async (gameData, summonerName, staticData) 
     return rank
   }
 
-module.exports = {
-    getMatch: getMatch,
-
-    getMatchHistory: async (summonerName) => {
-        const summoner = await kayn.Summoner.by.name(summonerName)
-        return (await kayn.Matchlist.by.accountID(summoner.accountId)).matches
-    },
-
-    getLeaderboard: async (championId) => {
-        await init();
-        let leaderboard = await PlayerStats.find({ championId });
-
-        return leaderboard;
-    },
-
-    setLeaderboard: async (player, matchId, championId) => {
-        const obj = { player, matchId, championId };
-        const playerStats = new PlayerStats(obj);
-        await playerStats.save();
-
-        return playerStats.toJSON();
-    },
-
-    getRankForPlayerMatch: async (summonerName, matchId, staticData) => {
+  const getRankForPlayerMatch = async (summonerName, matchId, staticData) => {
         await init();
         let _match = await PlayerStats.findOne({ summonerName, matchId });
 
@@ -276,21 +253,46 @@ module.exports = {
         await playerStats.save();
 
         return playerStats.toJSON();
+    }
+
+module.exports = {
+    getMatch: getMatch,
+
+    getMatchHistory: async (summonerName) => {
+        const summoner = await kayn.Summoner.by.name(summonerName)
+        return (await kayn.Matchlist.by.accountID(summoner.accountId)).matches
     },
 
-    startCalc: async () => {
+    getLeaderboard: async (championId) => {
+        await init();
+        let leaderboard = await PlayerStats.find({ championId });
+
+        return leaderboard;
+    },
+
+    setLeaderboard: async (player, matchId, championId) => {
+        const obj = { player, matchId, championId };
+        const playerStats = new PlayerStats(obj);
+        await playerStats.save();
+
+        return playerStats.toJSON();
+    },
+
+    startCalc: async (staticData) => {
+        await init();
         while (true) {
             let _match = await Match.findOne({calculatedGameScore: { '$exists': false }})
-            console.log(_match);
 
             if (!_match) {
                 return;
             }
 
-            console.log('hit!');
             _match.participantIdentities.map(player => {
-                console.log(player)
-            });
+
+                return player.player[0].summonerName;
+            }).forEach(summonerName => getRankForPlayerMatch(summonerName, _match.gameId, staticData));
+
+
         }
     },
 

@@ -124,7 +124,7 @@ app.get('/seed', (req, res) => {
 })
 
 app.get('/calculations_all', (req, res) => {
-  matchStore.startCalc();
+  matchStore.startCalc(staticData);
   res.send('ok :D');
 })
 
