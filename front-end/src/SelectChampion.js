@@ -14,7 +14,7 @@ export default class SelectChampion extends Component {
     constructor(props) {
       super(props);
         this.state = {
-          uploadText: 'Drop Your Replay Here, ' + this.state.summonerName + '<br /><br />(<a href="/me">Or view your recent games</a>)'
+          uploadText: 'Drop Your Replay Here, ' + this.state.summonerName + '<br /><br /><div id="info_text">(<a href="/me">Or view your recent games</a>)</div>'
         };
     }
 
@@ -48,9 +48,9 @@ export default class SelectChampion extends Component {
             <p className="shadow text2">ROFLMAO</p>
           </div>
           <div className="upload-button">
-          <ReactDropzone disableClick className="dropzone" onDrop={this.onDrop}>
-          <p dangerouslySetInnerHTML={{__html: this.state.uploadText}} />
-          </ReactDropzone>
+            <ReactDropzone disableClick className="dropzone" onDrop={this.onDrop}>
+              <p dangerouslySetInnerHTML={{__html: this.state.uploadText}} />
+            </ReactDropzone>
           </div>
           <HexGrid width={1200} height={1250}>
 
