@@ -3,8 +3,6 @@ version: '3'
 services:
   mongo:
     image: mongo:latest
-    volumes:
-      - ./RankingMaster/db:/data/db
     env_file:
       - ./RankingMaster.env
     ports:
